@@ -31,7 +31,7 @@
     <CSEntryPoint>CSMain</CSEntryPoint>
     <SourceFile>debugRender.hlsl</SourceFile>
     <ShowPemutations>false</ShowPemutations>
-    <ListingPath>D:\ITMO\MIGProject\MIGProject\Content\Temp\0EC7C2D14F65EFBA65B361728EE70CD3.html</ListingPath>
+    <ListingPath>D:\ITMO\ExampleFlight\ExampleFlight\Content\Temp\0EC7C2D14F65EFBA65B361728EE70CD3.html</ListingPath>
   </Asset>
   <Asset xsi:type="UbershaderAsset">
     <AssetPath>spriteBatch.hlsl</AssetPath>
@@ -51,7 +51,7 @@
     <CSEntryPoint>CSMain</CSEntryPoint>
     <SourceFile>spriteBatch.hlsl</SourceFile>
     <ShowPemutations>false</ShowPemutations>
-    <ListingPath>D:\ITMO\MIGProject\MIGProject\Content\Temp\A41575F61A6644F1898EE4AE0783DAF8.html</ListingPath>
+    <ListingPath>D:\ITMO\ExampleFlight\ExampleFlight\Content\Temp\A41575F61A6644F1898EE4AE0783DAF8.html</ListingPath>
   </Asset>
   <Asset xsi:type="FbxFileSceneAsset">
     <AssetPath>mig29.fbx</AssetPath>
@@ -93,10 +93,28 @@
     <CSEntryPoint>CSMain</CSEntryPoint>
     <SourceFile>render.hlsl</SourceFile>
     <ShowPemutations>false</ShowPemutations>
-    <ListingPath>D:\ITMO\MIGProject\MIGProject\Content\Temp\D2FF2A025CD3CFBBE98E238647ED8262.html</ListingPath>
+    <ListingPath>D:\ITMO\ExampleFlight\ExampleFlight\Content\Temp\D2FF2A025CD3CFBBE98E238647ED8262.html</ListingPath>
+  </Asset>
+  <Asset xsi:type="FbxFileSceneAsset">
+    <AssetPath>testScene.fbx</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <SourceFile>testScene.fbx</SourceFile>
+    <MergeTolerance>0</MergeTolerance>
+    <ImportAnimation>false</ImportAnimation>
+    <ImportGeometry>true</ImportGeometry>
+  </Asset>
+  <Asset xsi:type="FbxFileSceneAsset">
+    <AssetPath>marine.fbx</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <SourceFile>marine.fbx</SourceFile>
+    <MergeTolerance>0</MergeTolerance>
+    <ImportAnimation>false</ImportAnimation>
+    <ImportGeometry>true</ImportGeometry>
   </Asset>
   <Asset xsi:type="UbershaderAsset">
-    <AssetPath>test.hlsl</AssetPath>
+    <AssetPath>render2.hlsl</AssetPath>
     <BuildOrder>0</BuildOrder>
     <IgnoreToolChanges>false</IgnoreToolChanges>
     <HardwareProfile>HiDef</HardwareProfile>
@@ -111,17 +129,8 @@
     <DSEntryPoint>DSMain</DSEntryPoint>
     <HSEntryPoint>HSMain</HSEntryPoint>
     <CSEntryPoint>CSMain</CSEntryPoint>
-    <SourceFile>test.hlsl</SourceFile>
+    <SourceFile>render2.hlsl</SourceFile>
     <ShowPemutations>false</ShowPemutations>
-    <ListingPath>D:\ITMO\MIGProject\MIGProject\Content\Temp\F896B223F730F30840F6325E60A3DDCB.html</ListingPath>
-  </Asset>
-  <Asset xsi:type="FbxFileSceneAsset">
-    <AssetPath>Track2.fbx</AssetPath>
-    <BuildOrder>0</BuildOrder>
-    <IgnoreToolChanges>false</IgnoreToolChanges>
-    <SourceFile>Track2.fbx</SourceFile>
-    <MergeTolerance>0</MergeTolerance>
-    <ImportAnimation>false</ImportAnimation>
-    <ImportGeometry>true</ImportGeometry>
+    <ListingPath>D:\ITMO\ExampleFlight\ExampleFlight\Content\Temp\F05101E373DD261A584ABAAD8A3615AB.html</ListingPath>
   </Asset>
 </ArrayOfAsset>

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using Fusion;
 using Fusion.Development;
 
-namespace MIGProject
+namespace ExampleFlight
 {
     class Program
     {
         [STAThread]
         static void Main(string[] args)
         {
-            using (var game = new MIGProject())
+            using (var game = new ExampleFlight())
             {
                 if (DevCon.Prepare(game, @"..\..\..\Content\Content.xml", "Content"))
                 {
