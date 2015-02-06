@@ -26,7 +26,8 @@ namespace ExampleFlight
         public GraphicsDevice graphicsDevice;
         public Matrix[] worldMatrixies;
 
-        public void LoadContent(Game game, GraphicsDevice graphicsDevice, string modelName, string shaderName)
+
+        public void LoadContent(Game game, GraphicsDevice graphicsDevice, string modelName, string shaderName, int fl)
         {
             this.game = game;
             this.graphicsDevice = graphicsDevice;
@@ -34,11 +35,16 @@ namespace ExampleFlight
             this.shaderName = shaderName;
             modelConstBuffer = new ConstantBuffer(graphicsDevice, typeof(CBData));
             scene = game.Content.Load<Scene>(@modelName);
-            /*	foreach ( var mesh in scene.Meshes ) {
-                  foreach ( var mtrl in mesh.Materials ) {
-                      mtrl.Tag	=	Content.Load<Texture2D>( mtrl.TexturePath );
-                  }
-              }*/
+            if (fl == 1)
+            {
+                foreach (var mesh in scene.Meshes)
+                {
+                    foreach (var mtrl in mesh.Materials)
+                    {
+                        mtrl.Tag = this.game.Content.Load<Texture2D>(mtrl.TexturePath);
+                    }
+                }
+            }
 
             scene.Bake<VertexColorTextureNormal>(graphicsDevice, VertexColorTextureNormal.Bake);
 
@@ -70,7 +76,7 @@ namespace ExampleFlight
             Log.Message("{0}", scene.Nodes.Count(n => n.MeshIndex >= 0));
         }
 
-        public void DrawModel()
+        public void DrawModel(float scaling)
         {
             CBData cbData = new CBData();
             var cam = game.GetService<Camera>();
@@ -98,7 +104,7 @@ namespace ExampleFlight
 
                     cbData.Projection = cam.ProjMatrix;
                     cbData.View = cam.ViewMatrix;
-                    cbData.World = Matrix.RotationYawPitchRoll(j * 0.01f, j * 0.02f, j * 0.03f) * worldMatricies[i] * Matrix.Scaling((float)Math.Pow(0.07, 1));
+                    cbData.World = Matrix.RotationYawPitchRoll(j * 0.01f, j * 0.02f, j * 0.03f) * worldMatricies[i] * Matrix.Scaling((float)Math.Pow(scaling, 1));
                     cbData.ViewPos = new Vector4(cam.CameraMatrix.TranslationVector, 1);
 
                     modelConstBuffer.SetData(cbData);

@@ -45,19 +45,23 @@ namespace ExampleFlight
 
 
         ModelOfScene migPlane;
-
+        Server server;
         /// <summary>
         /// Add services :
         /// </summary>
         protected override void Initialize()
         {
-            base.Initialize();
+           
 
-          //  constBuffer = new ConstantBuffer(GraphicsDevice, typeof(CBData));
-            migPlane = new ModelOfScene();
-            migPlane.LoadContent(this, GraphicsDevice, "mig29", "render2");
-            Reloading += (s, e) => migPlane.Reload();
+           // constBuffer = new ConstantBuffer(GraphicsDevice, typeof(CBData));
+          /* migPlane = new ModelOfScene();
+         /   migPlane.LoadContent(this, GraphicsDevice, "mig29", "render2");
+            Reloading += (s, e) => migPlane.Reload();*/
+            server = new Server(this, GraphicsDevice);
+            server.Init();
             GetService<Camera>().FreeCamPosition = Vector3.Up * 10;
+
+            base.Initialize();
         }
 
 
@@ -67,13 +71,13 @@ namespace ExampleFlight
         /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+           /* if (disposing)
             {
                 if (migPlane.modelConstBuffer != null)
                 {
                     migPlane.modelConstBuffer.Dispose();
                 }
-            }
+            }*/
             base.Dispose(disposing);
         }
 
@@ -159,7 +163,9 @@ namespace ExampleFlight
         /// <param name="stereoEye"></param>
         protected override void Draw(GameTime gameTime, StereoEye stereoEye)
         {
-            migPlane.DrawModel();
+           // migPlane.DrawModel();
+            server.Update(gameTime);
+            server.Draw(gameTime);
             base.Draw(gameTime, stereoEye);
         }
     }
