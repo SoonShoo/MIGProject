@@ -53,28 +53,6 @@
     <ShowPemutations>false</ShowPemutations>
     <ListingPath>D:\ITMO\ExampleFlight\ExampleFlight\Content\Temp\A41575F61A6644F1898EE4AE0783DAF8.html</ListingPath>
   </Asset>
-  <Asset xsi:type="FbxFileSceneAsset">
-    <AssetPath>mig29.fbx</AssetPath>
-    <BuildOrder>0</BuildOrder>
-    <IgnoreToolChanges>false</IgnoreToolChanges>
-    <SourceFile>mig29.fbx</SourceFile>
-    <MergeTolerance>0</MergeTolerance>
-    <ImportAnimation>false</ImportAnimation>
-    <ImportGeometry>true</ImportGeometry>
-  </Asset>
-  <Asset xsi:type="ImageFileTextureAsset">
-    <AssetPath>ice.jpg</AssetPath>
-    <BuildOrder>0</BuildOrder>
-    <IgnoreToolChanges>false</IgnoreToolChanges>
-    <NoMips>false</NoMips>
-    <Fast>false</Fast>
-    <ToNormal>false</ToNormal>
-    <Color>true</Color>
-    <Alpha>false</Alpha>
-    <Normal>false</Normal>
-    <Compression>RGB</Compression>
-    <SourceFile>ice.jpg</SourceFile>
-  </Asset>
   <Asset xsi:type="UbershaderAsset">
     <AssetPath>render.hlsl</AssetPath>
     <BuildOrder>0</BuildOrder>
@@ -94,15 +72,6 @@
     <SourceFile>render.hlsl</SourceFile>
     <ShowPemutations>false</ShowPemutations>
     <ListingPath>D:\ITMO\ExampleFlight\ExampleFlight\Content\Temp\D2FF2A025CD3CFBBE98E238647ED8262.html</ListingPath>
-  </Asset>
-  <Asset xsi:type="FbxFileSceneAsset">
-    <AssetPath>testScene.fbx</AssetPath>
-    <BuildOrder>0</BuildOrder>
-    <IgnoreToolChanges>false</IgnoreToolChanges>
-    <SourceFile>testScene.fbx</SourceFile>
-    <MergeTolerance>0</MergeTolerance>
-    <ImportAnimation>false</ImportAnimation>
-    <ImportGeometry>true</ImportGeometry>
   </Asset>
   <Asset xsi:type="FbxFileSceneAsset">
     <AssetPath>marine.fbx</AssetPath>
@@ -142,8 +111,17 @@
     <ImportAnimation>false</ImportAnimation>
     <ImportGeometry>true</ImportGeometry>
   </Asset>
+  <Asset xsi:type="FbxFileSceneAsset">
+    <AssetPath>scenes/mig29.fbx</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <SourceFile>scenes/mig29.fbx</SourceFile>
+    <MergeTolerance>0</MergeTolerance>
+    <ImportAnimation>false</ImportAnimation>
+    <ImportGeometry>true</ImportGeometry>
+  </Asset>
   <Asset xsi:type="ImageFileTextureAsset">
-    <AssetPath>MiG-29SMT_bodyDiff1.jpg</AssetPath>
+    <AssetPath>textures/MiG-29SMT_bodyDiff.JPG</AssetPath>
     <BuildOrder>0</BuildOrder>
     <IgnoreToolChanges>false</IgnoreToolChanges>
     <NoMips>false</NoMips>
@@ -153,6 +131,110 @@
     <Alpha>false</Alpha>
     <Normal>false</Normal>
     <Compression>RGB</Compression>
-    <SourceFile>MiG-29SMT_bodyDiff1.jpg</SourceFile>
+    <SourceFile>textures/MiG-29SMT_bodyDiff.JPG</SourceFile>
+  </Asset>
+  <Asset xsi:type="ImageFileTextureAsset">
+    <AssetPath>textures/canopy.tga</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <NoMips>false</NoMips>
+    <Fast>false</Fast>
+    <ToNormal>false</ToNormal>
+    <Color>true</Color>
+    <Alpha>false</Alpha>
+    <Normal>false</Normal>
+    <Compression>RGB</Compression>
+    <SourceFile>textures/canopy.tga</SourceFile>
+  </Asset>
+  <Asset xsi:type="ImageFileTextureAsset">
+    <AssetPath>textures/lightGreen.tga</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <NoMips>false</NoMips>
+    <Fast>false</Fast>
+    <ToNormal>false</ToNormal>
+    <Color>true</Color>
+    <Alpha>false</Alpha>
+    <Normal>false</Normal>
+    <Compression>RGB</Compression>
+    <SourceFile>textures/lightGreen.tga</SourceFile>
+  </Asset>
+  <Asset xsi:type="ImageFileTextureAsset">
+    <AssetPath>textures/lightRed.tga</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <NoMips>false</NoMips>
+    <Fast>false</Fast>
+    <ToNormal>false</ToNormal>
+    <Color>true</Color>
+    <Alpha>false</Alpha>
+    <Normal>false</Normal>
+    <Compression>RGB</Compression>
+    <SourceFile>textures/lightRed.tga</SourceFile>
+  </Asset>
+  <Asset xsi:type="ImageFileTextureAsset">
+    <AssetPath>textures/MiG-29SMT_bodyBump.JPG</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <NoMips>false</NoMips>
+    <Fast>false</Fast>
+    <ToNormal>false</ToNormal>
+    <Color>true</Color>
+    <Alpha>false</Alpha>
+    <Normal>false</Normal>
+    <Compression>RGB</Compression>
+    <SourceFile>textures/MiG-29SMT_bodyBump.JPG</SourceFile>
+  </Asset>
+  <Asset xsi:type="ImageFileTextureAsset">
+    <AssetPath>textures/MiG-29SMT_bodySpec.JPG</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <NoMips>false</NoMips>
+    <Fast>false</Fast>
+    <ToNormal>false</ToNormal>
+    <Color>true</Color>
+    <Alpha>false</Alpha>
+    <Normal>false</Normal>
+    <Compression>RGB</Compression>
+    <SourceFile>textures/MiG-29SMT_bodySpec.JPG</SourceFile>
+  </Asset>
+  <Asset xsi:type="ImageFileTextureAsset">
+    <AssetPath>textures/MiG-29SMT_CocpitDiff.JPG</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <NoMips>false</NoMips>
+    <Fast>false</Fast>
+    <ToNormal>false</ToNormal>
+    <Color>true</Color>
+    <Alpha>false</Alpha>
+    <Normal>false</Normal>
+    <Compression>RGB</Compression>
+    <SourceFile>textures/MiG-29SMT_CocpitDiff.JPG</SourceFile>
+  </Asset>
+  <Asset xsi:type="ImageFileTextureAsset">
+    <AssetPath>textures/MiG-29SMT_CocpitSpec.jpg</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <NoMips>false</NoMips>
+    <Fast>false</Fast>
+    <ToNormal>false</ToNormal>
+    <Color>true</Color>
+    <Alpha>false</Alpha>
+    <Normal>false</Normal>
+    <Compression>RGB</Compression>
+    <SourceFile>textures/MiG-29SMT_CocpitSpec.jpg</SourceFile>
+  </Asset>
+  <Asset xsi:type="ImageFileTextureAsset">
+    <AssetPath>textures/yellow_lamp.tga</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <NoMips>false</NoMips>
+    <Fast>false</Fast>
+    <ToNormal>false</ToNormal>
+    <Color>true</Color>
+    <Alpha>false</Alpha>
+    <Normal>false</Normal>
+    <Compression>RGB</Compression>
+    <SourceFile>textures/yellow_lamp.tga</SourceFile>
   </Asset>
 </ArrayOfAsset>

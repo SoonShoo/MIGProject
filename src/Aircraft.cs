@@ -31,12 +31,12 @@ namespace ExampleFlight
 
         public Aircraft(Game game, World world, GraphicsDevice graphicsDevice)
         {
-            string modelName = "mig29";
+            string modelName = "scenes/mig29.fbx";
             string shaderName = "render2";
             this.game = game;
             this.graphicsDevice = graphicsDevice;
             plane = new ModelOfScene();
-            plane.LoadContent(game, graphicsDevice, modelName, shaderName, 0);
+            plane.LoadContent(game, graphicsDevice, modelName, shaderName, 1);
             this.game.Reloading += (s, e) => plane.Reload();
             this.world = world;
         }
@@ -61,7 +61,7 @@ namespace ExampleFlight
             //Update plane
             //...
             //var scaling = 0.3f;
-            plane.DrawModel(0.07f);
+            plane.DrawModel(0.2f);
         }
     }
 }
