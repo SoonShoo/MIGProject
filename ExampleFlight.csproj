@@ -55,6 +55,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Aircraft.cs" />
+    <Compile Include="src\Carrier.cs" />
     <Compile Include="src\CBData.cs" />
     <Compile Include="src\Environment .cs" />
     <Compile Include="src\ModelOfScene.cs" />

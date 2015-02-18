@@ -25,10 +25,13 @@ namespace ExampleFlight
         public string shaderName;
         public GraphicsDevice graphicsDevice;
         public Matrix[] worldMatrixies;
+        public Matrix position;
+        
 
 
         public void LoadContent(Game game, GraphicsDevice graphicsDevice, string modelName, string shaderName, int fl)
         {
+            SetPosition(0, 0, 0);
             this.game = game;
             this.graphicsDevice = graphicsDevice;
             this.modelName = modelName;
@@ -50,7 +53,7 @@ namespace ExampleFlight
 
             modelUberShader = this.game.Content.Load<Ubershader>(shaderName);
             modelUberShader.Map(typeof(RenderFlags));
-
+            
             Log.Message("{0}", scene.Nodes.Count(n => n.MeshIndex >= 0));
         }
 
@@ -76,14 +79,18 @@ namespace ExampleFlight
             Log.Message("{0}", scene.Nodes.Count(n => n.MeshIndex >= 0));
         }
 
-        public void DrawModel(float scaling)
+        public void SetPosition(float x, float y, float z)
+        {
+            position = Matrix.Translation(x, y, z);
+        }
+
+        public void DrawModel(float scaling )
         {
             CBData cbData = new CBData();
             var cam = game.GetService<Camera>();
 
-            graphicsDevice.ClearBackbuffer(Color.CornflowerBlue, 1, 0);
-
-
+           
+            
             modelUberShader.SetPixelShader(0);
             modelUberShader.SetVertexShader(0);
 
@@ -104,7 +111,7 @@ namespace ExampleFlight
 
                     cbData.Projection = cam.ProjMatrix;
                     cbData.View = cam.ViewMatrix;
-                    cbData.World = Matrix.RotationYawPitchRoll(j * 0.01f, j * 0.02f, j * 0.03f) * worldMatricies[i] * Matrix.Scaling((float)Math.Pow(scaling, 1));
+                    cbData.World = position * Matrix.RotationYawPitchRoll(j * 0.01f, j * 0.02f, j * 0.03f) * worldMatricies[i] * Matrix.Scaling((float)Math.Pow(scaling, 1));
                     cbData.ViewPos = new Vector4(cam.CameraMatrix.TranslationVector, 1);
 
                     modelConstBuffer.SetData(cbData);

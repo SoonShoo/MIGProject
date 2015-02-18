@@ -28,7 +28,7 @@ namespace ExampleFlight
             this.game = game;
             this.graphicsDevice = graphicsDevice;
             water = new Water(game, graphicsDevice);
-            skyBox = new SkyBox();
+            skyBox = new SkyBox(game, graphicsDevice);
             this.world = world;
         }
         public void Init()
@@ -55,8 +55,8 @@ namespace ExampleFlight
             //Update plane
             //...
             //var scaling = 0.3f;
-          // water.Draw();
-           // skyBox.Draw();
+           water.Draw();
+           skyBox.Draw();
         }
     }
 }

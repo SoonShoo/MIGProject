@@ -21,6 +21,7 @@ namespace ExampleFlight
     {
 
         Aircraft jetAircraft;
+        private Carrier carrier;
         Environment environment;
         World physicsWorld;
         GraphicsDevice graphicsDevice;
@@ -38,6 +39,7 @@ namespace ExampleFlight
             //...
             jetAircraft = new Aircraft(this.Game, physicsWorld, graphicsDevice);
             environment = new Environment(this.Game, physicsWorld, graphicsDevice);
+            carrier = new Carrier(this.Game, physicsWorld, graphicsDevice);
         }
 
         public void Update(GameTime gameTime)
@@ -45,17 +47,18 @@ namespace ExampleFlight
             //Updating
             //...
             jetAircraft.Update(gameTime);
+            carrier.Update(gameTime);
 
 
         }
 
-        public void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, StereoEye stereoEye)
         {
-            //Drawing
-            //...
+            
             jetAircraft.Draw(gameTime);
+            carrier.Draw(gameTime);
             environment.Draw(gameTime);
-
+            base.Draw(gameTime, stereoEye);
         }
 
 
