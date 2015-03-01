@@ -23,6 +23,10 @@ namespace ExampleFlight
         {
             this.LoadContent(game, graphicsDevice, "water" , "render2",  0);
             game.Reloading += (s, e) => this.Reload();
+            //water = new ModelOfScene();
+           // water.LoadContent(game, graphicsDevice, "scenes/water" , "render2",  1);
+            //game.Reloading += (s, e) => water.Reload();
+            //water.SetPosition(0.0f, -15.0f, 0.0f);
         }
 
         public void Update()
@@ -32,7 +36,7 @@ namespace ExampleFlight
 
         public void  Draw()
         {
-            //this.DrawModel(1.0f, );
+
         }
 
     }

@@ -26,10 +26,12 @@ namespace ExampleFlight
         public string shaderName;
         public GraphicsDevice graphicsDevice;
         public Matrix[] worldMatrixies;
+
         protected Matrix position;
         private Vector3 vec_position;
         private Quaternion orientation;
         public float scaling = 0.2f;
+
 
 
         public void LoadContent(Game game, GraphicsDevice graphicsDevice, string modelName, string shaderName, int fl)
@@ -52,7 +54,7 @@ namespace ExampleFlight
 
             modelUberShader = this.game.Content.Load<Ubershader>(shaderName);
             modelUberShader.Map(typeof(RenderFlags));
-
+            
             Log.Message("{0}", scene.Nodes.Count(n => n.MeshIndex >= 0));
         }
           public void SetPosition(float x, float y, float z)
@@ -84,7 +86,6 @@ namespace ExampleFlight
         {
             CBData cbData = new CBData();
             var cam = game.GetService<Camera>();
-
             modelUberShader.SetPixelShader(0);
             modelUberShader.SetVertexShader(0);
 

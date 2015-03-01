@@ -1,0 +1,47 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	modified:   Content/Content.xml
+#	new file:   Content/Textures/Above_The_Sea.jpg
+#	new file:   Content/Textures/carier_test.jpg
+#	new file:   Content/Textures/carrier_base_Diffuse.jpg
+#	new file:   Content/Textures/carrier_base_lowpoly_difmap.png
+#	new file:   Content/Textures/carrier_base_lowpoly_specmap.png
+#	new file:   Content/Textures/carrier_base_normal.jpg
+#	new file:   Content/Textures/rubka_base_lowpolyVRayBumpNormalsMap.png
+#	new file:   Content/Textures/rubka_base_lowpolyVRayBumpNormalsMap.tga
+#	new file:   Content/Textures/rubka_base_lowpolyVRayDiffuseFilterMap.png
+#	new file:   Content/Textures/rubka_base_lowpolyVRayDiffuseFilterMap.tga
+#	new file:   Content/Textures/rubka_base_lowpolyVRayGlobalIlluminationMap.tga
+#	new file:   Content/Textures/rubka_base_lowpolyVRayNormalsMap.png
+#	new file:   Content/Textures/rubka_base_lowpolyVRayNormalsMap.tga
+#	new file:   Content/Textures/rubka_base_lowpolyVRayNormalsMap_gi.png
+#	new file:   Content/Textures/rubka_base_lowpoly_specmap.png
+#	new file:   Content/Textures/water.tga
+#	new file:   Content/Textures/waterHFNoise.tga
+#	new file:   Content/Textures/waterNM.tga
+#	new file:   Content/Textures/waterNoise.tga
+#	new file:   Content/Textures/waterNoiseHF.tga
+#	new file:   Content/Textures/waterNoiseLF.tga
+#	new file:   Content/default/workspace.mel
+#	deleted:    Content/marine.fbx
+#	new file:   Content/scenes/carrier.fbx
+#	new file:   Content/scenes/cube.fbx
+#	modified:   Content/scenes/mig29.fbx
+#	new file:   Content/scenes/water.fbx
+#	deleted:    Content/water.fbx
+#	modified:   ExampleFlight.cs
+#	modified:   ExampleFlight.csproj
+#	modified:   src/Aircraft.cs
+#	new file:   src/Carrier.cs
+#	modified:   src/Environment .cs
+#	modified:   src/ModelOfScene.cs
+#	modified:   src/Server.cs
+#	modified:   src/SkyBox.cs
+#	modified:   src/Water.cs
+#
+

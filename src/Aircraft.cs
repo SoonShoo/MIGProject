@@ -41,6 +41,7 @@ namespace ExampleFlight
             plane.LoadContent(game, graphicsDevice, modelName, shaderName, 1);
             this.game.Reloading += (s, e) => plane.Reload();
             this.world = world;
+            plane.SetPosition(0, 20.0f, 0);
         }
 
 
@@ -62,6 +63,10 @@ namespace ExampleFlight
             //Update plane
             //...
             plane.DrawModel(stereoEye);
+
+            //var scaling = 0.3f;
+            //plane.DrawModel(1.0f);
+
         }
     }
 }

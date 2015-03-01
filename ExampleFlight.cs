@@ -57,6 +57,8 @@ namespace ExampleFlight
             base.Initialize();
             server = new Server(this, GraphicsDevice);
             server.Init();
+            GetService<Camera>().FreeCamPosition = Vector3.Up;
+
 
             GetService<Camera>().FreeCamPosition = Vector3.Up * 10;
         }
@@ -160,6 +162,8 @@ namespace ExampleFlight
         protected override void Draw(GameTime gameTime, StereoEye stereoEye)
         {
            // migPlane.DrawModel();
+            GraphicsDevice.ClearBackbuffer(Color.CornflowerBlue, 1, 0);
+
             server.Update(gameTime);
             server.Draw(gameTime, stereoEye);
             base.Draw(gameTime, stereoEye);
