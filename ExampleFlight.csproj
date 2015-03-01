@@ -33,14 +33,14 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fusion">
-      <HintPath>$(FUSION_BIN)\Fusion.dll</HintPath>
-    </Reference>
     <Reference Include="BEPUphysics">
       <HintPath>$(FUSION_BIN)\BEPUphysics.dll</HintPath>
     </Reference>
     <Reference Include="BEPUutilities">
       <HintPath>$(FUSION_BIN)\BEPUutilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Fusion">
+      <HintPath>C:\Program Files (x86)\FusionGameLib\Bin\Fusion.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -58,6 +58,9 @@
     <Compile Include="src\CBData.cs" />
     <Compile Include="src\Environment .cs" />
     <Compile Include="src\ModelOfScene.cs" />
+    <Compile Include="src\Model\Car.cs" />
+    <Compile Include="src\Model\Field.cs" />
+    <Compile Include="src\Model\VehicleTest.cs" />
     <Compile Include="src\Player.cs" />
     <Compile Include="src\Server.cs" />
     <Compile Include="src\SkyBox.cs" />

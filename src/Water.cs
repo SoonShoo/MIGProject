@@ -13,21 +13,16 @@ using Fusion.Development;
 using Fusion.UserInterface;
 using Microsoft.SqlServer.Server;
 using BVector3 = BEPUutilities.Vector3;
-using Vector3 = Fusion.Vector3;
+using Vector3 = Fusion.Mathematics.Vector3;
 
 namespace ExampleFlight
 {
-    class Water
+    class Water : ModelOfScene
     {
-        private ModelOfScene water;
-        // типы пгодных условий
-        //...
-
         public Water(Game game, GraphicsDevice graphicsDevice)
         {
-            water = new ModelOfScene();
-            water.LoadContent(game, graphicsDevice, "water" , "render2",  0);
-            game.Reloading += (s, e) => water.Reload();
+            this.LoadContent(game, graphicsDevice, "water" , "render2",  0);
+            game.Reloading += (s, e) => this.Reload();
         }
 
         public void Update()
@@ -37,7 +32,7 @@ namespace ExampleFlight
 
         public void  Draw()
         {
-            water.DrawModel(1.0f);
+            //this.DrawModel(1.0f, );
         }
 
     }

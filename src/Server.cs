@@ -4,6 +4,8 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using BEPUphysics;
+using ExampleFlight.src.Model;
 using Fusion;
 using Fusion.Audio;
 using Fusion.Content;
@@ -12,7 +14,7 @@ using Fusion.Input;
 using Fusion.Development;
 using Microsoft.SqlServer.Server;
 using BVector3 = BEPUutilities.Vector3;
-using Vector3 = Fusion.Vector3;
+using Vector3 = Fusion.Mathematics.Vector3;
 
 
 namespace ExampleFlight
@@ -21,15 +23,19 @@ namespace ExampleFlight
     {
 
         Aircraft jetAircraft;
+       
         Environment environment;
         World physicsWorld;
         GraphicsDevice graphicsDevice;
+        
+        private Space space;
+        private Field field;
+        private VehicleTest vehicle;
+        private Car car;
 
         public Server(Game game, GraphicsDevice graphicsDevice) : base(game)
         {
-            //this.game = game;
             this.graphicsDevice = graphicsDevice;
-
         }
 
         public void Init()
@@ -37,25 +43,38 @@ namespace ExampleFlight
             //initialization
             //...
             jetAircraft = new Aircraft(this.Game, physicsWorld, graphicsDevice);
-            environment = new Environment(this.Game, physicsWorld, graphicsDevice);
+            //environment = new Environment(this.Game, physicsWorld, graphicsDevice);
+            
+            space=new Space();
+            space.ForceUpdater.Gravity = new BVector3(0, 0, -9.81f);
+            
+            field = new Field(Game, space, graphicsDevice);
+            
+            vehicle = new VehicleTest(Game, space, graphicsDevice);
+            
+            car = new Car(Game, graphicsDevice, BVector3.Zero);
+            car.AddToSpace(space);
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, DebugRender dr, InputDevice device)
         {
             //Updating
             //...
-            jetAircraft.Update(gameTime);
-
-
+            space.Update(gameTime.ElapsedSec * 10f);
+            //jetAircraft.Update(gameTime);
+            field.Update(gameTime, dr);
+            vehicle.Update(gameTime, dr, device);
+            car.Update(gameTime, dr, device);
         }
 
-        public void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, StereoEye stereoEye)
         {
             //Drawing
             //...
-            jetAircraft.Draw(gameTime);
-            environment.Draw(gameTime);
-
+            //field.DrawModel(1.0f, stereoEye);
+            //jetAircraft.Draw(gameTime, stereoEye);
+            car.DrawModel(stereoEye);
+            //environment.Draw(gameTime, stereoEye);
         }
 
 

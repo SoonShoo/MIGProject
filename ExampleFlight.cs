@@ -9,6 +9,7 @@ using Fusion.Content;
 using Fusion.Graphics;
 using Fusion.Input;
 using Fusion.Development;
+using Fusion.Mathematics;
 
 namespace ExampleFlight
 {
@@ -46,22 +47,18 @@ namespace ExampleFlight
 
         ModelOfScene migPlane;
         Server server;
+        ConstantBuffer constBuffer;
+
         /// <summary>
         /// Add services :
         /// </summary>
         protected override void Initialize()
         {
-           
-
-           // constBuffer = new ConstantBuffer(GraphicsDevice, typeof(CBData));
-          /* migPlane = new ModelOfScene();
-         /   migPlane.LoadContent(this, GraphicsDevice, "mig29", "render2");
-            Reloading += (s, e) => migPlane.Reload();*/
+            base.Initialize();
             server = new Server(this, GraphicsDevice);
             server.Init();
-            GetService<Camera>().FreeCamPosition = Vector3.Up * 10;
 
-            base.Initialize();
+            GetService<Camera>().FreeCamPosition = Vector3.Up * 10;
         }
 
 
@@ -71,13 +68,13 @@ namespace ExampleFlight
         /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
-           /* if (disposing)
+            if (disposing)
             {
-                if (migPlane.modelConstBuffer != null)
+                if (constBuffer != null)
                 {
-                    migPlane.modelConstBuffer.Dispose();
+                    constBuffer.Dispose();
                 }
-            }*/
+            }
             base.Dispose(disposing);
         }
 
@@ -146,11 +143,10 @@ namespace ExampleFlight
 
             var cam = GetService<Camera>();
             var dr = GetService<DebugRender>();
-            dr.View = cam.ViewMatrix;
-            dr.Projection = cam.ProjMatrix;
-
+            dr.View = cam.GetViewMatrix(StereoEye.Mono);
+            dr.Projection = cam.GetProjectionMatrix(StereoEye.Mono);
+            server.Update(gameTime, dr, InputDevice);
             dr.DrawGrid(10);
-
             base.Update(gameTime);
         }
 
@@ -165,7 +161,7 @@ namespace ExampleFlight
         {
            // migPlane.DrawModel();
             server.Update(gameTime);
-            server.Draw(gameTime);
+            server.Draw(gameTime, stereoEye);
             base.Draw(gameTime, stereoEye);
         }
     }

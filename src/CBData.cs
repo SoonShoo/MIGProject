@@ -9,6 +9,7 @@ using Fusion.Content;
 using Fusion.Graphics;
 using Fusion.Input;
 using Fusion.Development;
+using Fusion.Mathematics;
 
 namespace ExampleFlight
 {

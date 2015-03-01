@@ -11,7 +11,7 @@ using Fusion.Input;
 using Fusion.Development;
 using Microsoft.SqlServer.Server;
 using BVector3 = BEPUutilities.Vector3;
-using Vector3 = Fusion.Vector3;
+using Vector3 = Fusion.Mathematics.Vector3;
 
 
 namespace ExampleFlight
@@ -22,7 +22,10 @@ namespace ExampleFlight
         Game game;
         ModelOfScene plane;
         World world;
-        //GameTime gameTime;
+
+        const string modelName = "scenes/mig29.fbx";
+        const string shaderName = "render2";
+
         GraphicsDevice graphicsDevice;
 
         // тут поля связанные с физикой
@@ -31,8 +34,7 @@ namespace ExampleFlight
 
         public Aircraft(Game game, World world, GraphicsDevice graphicsDevice)
         {
-            string modelName = "scenes/mig29.fbx";
-            string shaderName = "render2";
+
             this.game = game;
             this.graphicsDevice = graphicsDevice;
             plane = new ModelOfScene();
@@ -52,16 +54,14 @@ namespace ExampleFlight
         {
             //Update plane
             //...
-            //var scaling = 0.3f;
             UpdatePhysics(gameTime);
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime, StereoEye stereoEye)
         {
             //Update plane
             //...
-            //var scaling = 0.3f;
-            plane.DrawModel(0.2f);
+            plane.DrawModel(stereoEye);
         }
     }
 }

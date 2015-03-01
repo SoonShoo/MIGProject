@@ -11,7 +11,7 @@ using Fusion.Input;
 using Fusion.Development;
 using Microsoft.SqlServer.Server;
 using BVector3 = BEPUutilities.Vector3;
-using Vector3 = Fusion.Vector3;
+using Vector3 = Fusion.Mathematics.Vector3;
 
 namespace ExampleFlight
 {
@@ -50,12 +50,12 @@ namespace ExampleFlight
             UpdatePhysics(gameTime);
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime, StereoEye stereoEye)
         {
             //Update plane
             //...
             //var scaling = 0.3f;
-          // water.Draw();
+           water.Draw();
            // skyBox.Draw();
         }
     }

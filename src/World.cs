@@ -11,8 +11,7 @@ using Fusion.Input;
 using Fusion.Development;
 using Microsoft.SqlServer.Server;
 using BVector3 = BEPUutilities.Vector3;
-using Vector3 = Fusion.Vector3;
-
+using Vector3 = Fusion.Mathematics.Vector3;
 
 namespace ExampleFlight
 {

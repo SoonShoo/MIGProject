@@ -31,7 +31,7 @@
     <CSEntryPoint>CSMain</CSEntryPoint>
     <SourceFile>debugRender.hlsl</SourceFile>
     <ShowPemutations>false</ShowPemutations>
-    <ListingPath>D:\ITMO\ExampleFlight\ExampleFlight\Content\Temp\0EC7C2D14F65EFBA65B361728EE70CD3.html</ListingPath>
+    <ListingPath>E:\CodeProgram\VS2012\MIGProject\Content\Temp\0EC7C2D14F65EFBA65B361728EE70CD3.html</ListingPath>
   </Asset>
   <Asset xsi:type="UbershaderAsset">
     <AssetPath>spriteBatch.hlsl</AssetPath>
@@ -51,7 +51,7 @@
     <CSEntryPoint>CSMain</CSEntryPoint>
     <SourceFile>spriteBatch.hlsl</SourceFile>
     <ShowPemutations>false</ShowPemutations>
-    <ListingPath>D:\ITMO\ExampleFlight\ExampleFlight\Content\Temp\A41575F61A6644F1898EE4AE0783DAF8.html</ListingPath>
+    <ListingPath>E:\CodeProgram\VS2012\MIGProject\Content\Temp\A41575F61A6644F1898EE4AE0783DAF8.html</ListingPath>
   </Asset>
   <Asset xsi:type="UbershaderAsset">
     <AssetPath>render.hlsl</AssetPath>
@@ -71,7 +71,7 @@
     <CSEntryPoint>CSMain</CSEntryPoint>
     <SourceFile>render.hlsl</SourceFile>
     <ShowPemutations>false</ShowPemutations>
-    <ListingPath>D:\ITMO\ExampleFlight\ExampleFlight\Content\Temp\D2FF2A025CD3CFBBE98E238647ED8262.html</ListingPath>
+    <ListingPath>E:\CodeProgram\VS2012\MIGProject\Content\Temp\D2FF2A025CD3CFBBE98E238647ED8262.html</ListingPath>
   </Asset>
   <Asset xsi:type="FbxFileSceneAsset">
     <AssetPath>marine.fbx</AssetPath>
@@ -100,7 +100,7 @@
     <CSEntryPoint>CSMain</CSEntryPoint>
     <SourceFile>render2.hlsl</SourceFile>
     <ShowPemutations>false</ShowPemutations>
-    <ListingPath>D:\ITMO\ExampleFlight\ExampleFlight\Content\Temp\F05101E373DD261A584ABAAD8A3615AB.html</ListingPath>
+    <ListingPath>E:\CodeProgram\VS2012\MIGProject\Content\Temp\F05101E373DD261A584ABAAD8A3615AB.html</ListingPath>
   </Asset>
   <Asset xsi:type="FbxFileSceneAsset">
     <AssetPath>water.fbx</AssetPath>
@@ -236,5 +236,25 @@
     <Normal>false</Normal>
     <Compression>RGB</Compression>
     <SourceFile>textures/yellow_lamp.tga</SourceFile>
+  </Asset>
+  <Asset xsi:type="UbershaderAsset">
+    <AssetPath>stereo.hlsl</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <HardwareProfile>HiDef</HardwareProfile>
+    <DisableOptimization>false</DisableOptimization>
+    <OptimizationLevel>1</OptimizationLevel>
+    <AvoidFlowControl>false</AvoidFlowControl>
+    <PreferFlowControl>false</PreferFlowControl>
+    <MatrixPacking>RowMajor</MatrixPacking>
+    <PSEntryPoint>PSMain</PSEntryPoint>
+    <VSEntryPoint>VSMain</VSEntryPoint>
+    <GSEntryPoint>GSMain</GSEntryPoint>
+    <DSEntryPoint>DSMain</DSEntryPoint>
+    <HSEntryPoint>HSMain</HSEntryPoint>
+    <CSEntryPoint>CSMain</CSEntryPoint>
+    <SourceFile>stereo.hlsl</SourceFile>
+    <ShowPemutations>false</ShowPemutations>
+    <ListingPath>E:\CodeProgram\VS2012\MIGProject\Content\Temp\4B9F5097212F68238CEF9BFF980979F4.html</ListingPath>
   </Asset>
 </ArrayOfAsset>
