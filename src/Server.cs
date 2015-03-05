@@ -31,7 +31,7 @@ namespace ExampleFlight
         
         private Space space;
         private Field field;
-        private VehicleTest vehicle;
+        private SphereObject sphere;
         private Car car;
 
         public Server(Game game, GraphicsDevice graphicsDevice) : base(game)
@@ -51,8 +51,8 @@ namespace ExampleFlight
             space.ForceUpdater.Gravity = new BVector3(0, 0, -9.81f);
             
             field = new Field(Game, space, graphicsDevice);
-            
-            vehicle = new VehicleTest(Game, space, graphicsDevice);
+
+            sphere = new SphereObject(Game, space, graphicsDevice);
             
             car = new Car(Game, graphicsDevice, BVector3.Zero);
             car.AddToSpace(space);
@@ -69,7 +69,7 @@ namespace ExampleFlight
             space.Update(gameTime.ElapsedSec * 10f);
             //jetAircraft.Update(gameTime);
             field.Update(gameTime, dr);
-            vehicle.Update(gameTime, dr, device);
+            sphere.Update(gameTime, dr, device);
             car.Update(gameTime, dr, device);
             //jetAircraft.Update(gameTime);
             //carrier.Update(gameTime);
@@ -82,7 +82,7 @@ namespace ExampleFlight
             //...
             //field.DrawModel(1.0f, stereoEye);
             //jetAircraft.Draw(gameTime, stereoEye);
-            car.DrawModel(stereoEye);
+            car.draw(stereoEye);
             //environment.Draw(gameTime, stereoEye);
             
             //jetAircraft.Draw(gameTime);

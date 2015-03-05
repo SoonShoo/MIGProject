@@ -60,8 +60,9 @@
     <Compile Include="src\Environment .cs" />
     <Compile Include="src\ModelOfScene.cs" />
     <Compile Include="src\Model\Car.cs" />
+    <Compile Include="src\Model\Tire.cs" />
     <Compile Include="src\Model\Field.cs" />
-    <Compile Include="src\Model\VehicleTest.cs" />
+    <Compile Include="src\Model\SphereObject.cs" />
     <Compile Include="src\Player.cs" />
     <Compile Include="src\Server.cs" />
     <Compile Include="src\SkyBox.cs" />

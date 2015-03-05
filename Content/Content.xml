@@ -448,4 +448,31 @@
     <Compression>RGB</Compression>
     <SourceFile>textures/waterHFNoise.tga</SourceFile>
   </Asset>
+  <Asset xsi:type="FbxFileSceneAsset">
+    <AssetPath>CAR_iso2.fbx</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <SourceFile>CAR_iso2.fbx</SourceFile>
+    <MergeTolerance>0</MergeTolerance>
+    <ImportAnimation>false</ImportAnimation>
+    <ImportGeometry>true</ImportGeometry>
+  </Asset>
+  <Asset xsi:type="FbxFileSceneAsset">
+    <AssetPath>volkswagen.fbx</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <SourceFile>volkswagen.fbx</SourceFile>
+    <MergeTolerance>0</MergeTolerance>
+    <ImportAnimation>false</ImportAnimation>
+    <ImportGeometry>true</ImportGeometry>
+  </Asset>
+  <Asset xsi:type="FbxFileSceneAsset">
+    <AssetPath>tire.fbx</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <SourceFile>tire.fbx</SourceFile>
+    <MergeTolerance>0</MergeTolerance>
+    <ImportAnimation>false</ImportAnimation>
+    <ImportGeometry>true</ImportGeometry>
+  </Asset>
 </ArrayOfAsset>

@@ -27,11 +27,10 @@ namespace ExampleFlight
         public GraphicsDevice graphicsDevice;
         public Matrix[] worldMatrixies;
 
-        protected Matrix position;
-        private Vector3 vec_position;
+        private Vector3 position;
         private Quaternion orientation;
-        public float scaling = 0.2f;
-
+        private float scaling =1;
+        private Matrix rotation = Matrix.RotationYawPitchRoll(0, 0, 0);
 
 
         public void LoadContent(Game game, GraphicsDevice graphicsDevice, string modelName, string shaderName, int fl)
@@ -57,15 +56,27 @@ namespace ExampleFlight
             
             Log.Message("{0}", scene.Nodes.Count(n => n.MeshIndex >= 0));
         }
-          public void SetPosition(float x, float y, float z)
-          {
-              vec_position = new Vector3(x, y, z);
-             position = Matrix.Translation(x, y, z); 
-         }
-          public void SetOrientation(Quaternion quaternion)
-          {
-              this.orientation = quaternion;
-          } 
+
+        public void SetPosition(float x, float y, float z)
+        {
+            position = new Vector3(x, y, z);
+        }
+
+        public void SetOrientation(Quaternion quaternion)
+        {
+            this.orientation = quaternion;
+        }
+
+        public void setScaling(float scaling)
+        {
+            this.scaling = scaling;
+        }
+
+        public void setRotation(Vector3 rotation)
+        {
+            this.rotation = Matrix.RotationYawPitchRoll(rotation.X, rotation.Y, rotation.Z);
+        }
+
         public enum RenderFlags
         {
             None,
@@ -81,6 +92,8 @@ namespace ExampleFlight
 
             Log.Message("{0}", scene.Nodes.Count(n => n.MeshIndex >= 0));
         }
+
+
 
         public void DrawModel(StereoEye stereoEye)
         {
@@ -106,7 +119,7 @@ namespace ExampleFlight
 
                 cbData.Projection = cam.GetProjectionMatrix(stereoEye);
                 cbData.View = cam.GetViewMatrix(stereoEye);
-                cbData.World = Matrix.AffineTransformation(scaling, orientation, vec_position);//position * Matrix.RotationYawPitchRoll(orientation[0], 0, 0) * worldMatricies[i] * Matrix.Scaling((float)Math.Pow(scaling, 1));
+                cbData.World =  rotation * Matrix.AffineTransformation(scaling, orientation, position);//position * Matrix.RotationYawPitchRoll(orientation[0], 0, 0) * worldMatricies[i] * Matrix.Scaling((float)Math.Pow(scaling, 1));
                 cbData.ViewPos = new Vector4(cam.GetCameraMatrix( stereoEye ).TranslationVector, 1);
 
                 modelConstBuffer.SetData(cbData);

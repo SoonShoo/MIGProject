@@ -11,7 +11,6 @@ using BEPUphysics.Vehicle;
 using BEPUutilities;
 using BEPUphysics.CollisionShapes.ConvexShapes;
 using BEPUphysics.CollisionShapes;
-//using Matrix = BEPUutilities.Matrix;
 using Fusion.Mathematics;
 using Matrix = BEPUutilities.Matrix;
 using Quaternion = BEPUutilities.Quaternion;
@@ -28,72 +27,47 @@ namespace ExampleFlight.src.Model
         public Vehicle Vehicle;
         public Fusion.Mathematics.Matrix worldMatrix;
 
-        const string modelName = "scenes/mig29.fbx";
-        const string shaderName = "render2"; 
+        const string modelName = "CAR_iso2.fbx";
+        const string shaderName = "render2";
+
+        private List<Tire> tires = new List<Tire>();
+
+        List<Vector3> wheelpositionList = new List<Vector3>()
+        {
+            new Vector3(-2.1f, -0.1f, 1.8f),
+            new Vector3(-2.1f, -0.1f, -4f),
+            new Vector3(2.1f, -0.1f, 1.8f),
+            new Vector3(2.1f, -0.1f, -4f)
+        };
 
         public Car(Game game, GraphicsDevice grDevice, Vector3 position)
         {
-            base.LoadContent(game, grDevice, modelName, shaderName, 1);
+            base.LoadContent(game, grDevice, modelName, shaderName, 0);
             SetPosition(position.X, position.Y, position.Z);
             worldMatrix = Fusion.Mathematics.Matrix.Translation(position.X, position.Y, position.Z);
             initPhysics(position);
+            setScaling(0.01f);
+            setRotation(new Fusion.Mathematics.Vector3(0, (float)Math.PI, (float)-Math.PI / 2));
         }
 
         private void initPhysics(Vector3 position)
         {
             var bodies = new List<CompoundShapeEntry>
                 {
-                    new CompoundShapeEntry(new BoxShape(2.5f, .75f, 4.5f), new Vector3(0, 0, 0), 60),
-                    new CompoundShapeEntry(new BoxShape(2.5f, .3f, 2f), new Vector3(0, .75f / 2 + .3f / 2, .5f), 1)
+                    new CompoundShapeEntry(new BoxShape(5f, .75f, 9f), new Vector3(0, 0, 0), 60),
+                    new CompoundShapeEntry(new BoxShape(5f, .3f, 4f), new Vector3(0, .75f / 2 + .3f / 2, .5f), 1)
                 };
             var body = new CompoundBody(bodies, 61);
             body.CollisionInformation.LocalPosition = new Vector3(0, .5f, 0);
             Vehicle = new Vehicle(body);
 
-            var localWheelRotation = Quaternion.CreateFromAxisAngle(new Vector3(0, 0, 1), MathHelper.PiOver2);
-
-            //The wheel model used is not aligned initially with how a wheel would normally look, so rotate them.
-            Matrix wheelGraphicRotation = Matrix.CreateFromAxisAngle(Vector3.Forward, MathHelper.PiOver2);
-            Vehicle.AddWheel(new Wheel(
-                                 new CylinderCastWheelShape(.375f, 0.2f, localWheelRotation, wheelGraphicRotation, false),
-                                 new WheelSuspension(2000, 100f, Vector3.Down, 0.325f, new Vector3(-1.1f, -0.1f, 1.8f)),
-                                 new WheelDrivingMotor(2.5f, 30000, 10000),
-                                 new WheelBrake(1.5f, 2, .02f),
-                                 new WheelSlidingFriction(4, 5)));
-            Vehicle.AddWheel(new Wheel(
-                                 new CylinderCastWheelShape(.375f, 0.2f, localWheelRotation, wheelGraphicRotation, false),
-                                 new WheelSuspension(2000, 100f, Vector3.Down, 0.325f, new Vector3(-1.1f, -0.1f, -1.8f)),
-                                 new WheelDrivingMotor(2.5f, 30000, 10000),
-                                 new WheelBrake(1.5f, 2, .02f),
-                                 new WheelSlidingFriction(4, 5)));
-            Vehicle.AddWheel(new Wheel(
-                                 new CylinderCastWheelShape(.375f, 0.2f, localWheelRotation, wheelGraphicRotation, false),
-                                 new WheelSuspension(2000, 100f, Vector3.Down, 0.325f, new Vector3(1.1f, -0.1f, 1.8f)),
-                                 new WheelDrivingMotor(2.5f, 30000, 10000),
-                                 new WheelBrake(1.5f, 2, .02f),
-                                 new WheelSlidingFriction(4, 5)));
-            Vehicle.AddWheel(new Wheel(
-                                 new CylinderCastWheelShape(.375f, 0.2f, localWheelRotation, wheelGraphicRotation, false),
-                                 new WheelSuspension(2000, 100f, Vector3.Down, 0.325f, new Vector3(1.1f, -0.1f, -1.8f)),
-                                 new WheelDrivingMotor(2.5f, 30000, 10000),
-                                 new WheelBrake(1.5f, 2, .02f),
-                                 new WheelSlidingFriction(4, 5)));
-
-
-            foreach (Wheel wheel in Vehicle.Wheels)
+            foreach (Vector3 pos in wheelpositionList)
             {
-                wheel.Shape.FreezeWheelsWhileBraking = true;
-                wheel.Suspension.SolverSettings.MaximumIterationCount = 1;
-                wheel.Brake.SolverSettings.MaximumIterationCount = 1;
-                wheel.SlidingFriction.SolverSettings.MaximumIterationCount = 1;
-                wheel.DrivingMotor.SolverSettings.MaximumIterationCount = 1;
-                wheel.DrivingMotor.GripFriction = 1;
+                Tire t = new Tire(game, this.graphicsDevice, pos);
+                tires.Add(t);
+                Vehicle.AddWheel(t.getWheel());
             }
 
-            for (int k = 0; k < 4; k++)
-            {
-                Vehicle.Wheels[k].Shape.Detector.Tag = "noDisplayObject";
-            }
             Vehicle.Body.Position = position;
             Vehicle.Body.LinearVelocity = Vector3.Zero;
             Vehicle.Body.AngularVelocity = Vector3.Zero;
@@ -109,16 +83,14 @@ namespace ExampleFlight.src.Model
 
         public void Update(GameTime gameTime, DebugRender dr, InputDevice device)
         {
-            
-            //Update the wheel's graphics.
-           //for (int k = 0; k < 4; k++)
-           // {
-           //     //WheelModels[k].WorldTransform = Vehicle.Wheels[k].Shape.WorldTransform;
-           // }
-            var j = 1;
             SetPosition(Vehicle.Body.Position.X, Vehicle.Body.Position.Z, Vehicle.Body.Position.Y);
             var o = Vehicle.Body.Orientation;
-            SetOrientation(new Fusion.Mathematics.Quaternion(o.X, o.X, o.Y, o.Z));
+            SetOrientation(new Fusion.Mathematics.Quaternion(o.W, o.X, o.Y, o.Z));
+
+            foreach (var t in tires)
+            {
+                t.Update(gameTime, dr);
+            }
             
             dr.DrawSphere(new Fusion.Mathematics.Vector3(Vehicle.Body.Position.X, Vehicle.Body.Position.Z, Vehicle.Body.Position.Y), 1, Color.Red);
 
@@ -191,6 +163,13 @@ namespace ExampleFlight.src.Model
                     Vehicle.Wheels[3].Shape.SteeringAngle = angle;
                 }
             }
+        }
+
+        public void draw(StereoEye stereoEye)
+        {
+            this.DrawModel(stereoEye);
+            foreach(Tire t in tires)
+                t.DrawModel(stereoEye);
         }
     }
 }
