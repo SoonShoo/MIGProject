@@ -20,8 +20,8 @@ namespace ExampleFlight.src.Model
 {
     class Car : ModelOfScene
     {
-        public float BackwardSpeed = -1;
-        public float ForwardSpeed = 1;
+        public float BackwardSpeed = -2;
+        public float ForwardSpeed = 5;
         public float MaximumTurnAngle = (float)Math.PI / 6;
         public float TurnSpeed = MathHelper.Pi;
         public Vehicle Vehicle;
@@ -93,83 +93,13 @@ namespace ExampleFlight.src.Model
             }
             
             dr.DrawSphere(new Fusion.Mathematics.Vector3(Vehicle.Body.Position.X, Vehicle.Body.Position.Z, Vehicle.Body.Position.Y), 1, Color.Red);
-
-            if (device.IsKeyDown(Keys.Y))
-            {
-                //Drive
-                Vehicle.Wheels[1].DrivingMotor.TargetSpeed = ForwardSpeed;
-                Vehicle.Wheels[3].DrivingMotor.TargetSpeed = ForwardSpeed;
-                Console.WriteLine(Vehicle.Wheels[1].DrivingMotor.TargetSpeed);
-            }
-            else if (device.IsKeyDown(Keys.H))
-            {
-                //Reverse
-                Vehicle.Wheels[1].DrivingMotor.TargetSpeed = BackwardSpeed;
-                Vehicle.Wheels[3].DrivingMotor.TargetSpeed = BackwardSpeed;
-            }
-            else
-            {
-                //Idle
-                Vehicle.Wheels[1].DrivingMotor.TargetSpeed = 0;
-                Vehicle.Wheels[3].DrivingMotor.TargetSpeed = 0;
-            }
-            if (device.IsKeyDown(Keys.Space))
-            {
-                //Brake
-                foreach (Wheel wheel in Vehicle.Wheels)
-                {
-                    wheel.Brake.IsBraking = true;
-                }
-            }
-            else
-            {
-                //Release brake
-                foreach (Wheel wheel in Vehicle.Wheels)
-                {
-                    wheel.Brake.IsBraking = false;
-                }
-            }
-            //Use smooth steering; while held down, move towards maximum.
-            //When not pressing any buttons, smoothly return to facing forward.
-            float angle;
-            bool steered = false;
-            if (device.IsKeyDown(Keys.J))
-            {
-                steered = true;
-                angle = Math.Max(Vehicle.Wheels[1].Shape.SteeringAngle - TurnSpeed * gameTime.ElapsedSec, -MaximumTurnAngle);
-                Vehicle.Wheels[1].Shape.SteeringAngle = angle;
-                Vehicle.Wheels[3].Shape.SteeringAngle = angle;
-            }
-            if (device.IsKeyDown(Keys.G))
-            {
-                steered = true;
-                angle = Math.Min(Vehicle.Wheels[1].Shape.SteeringAngle + TurnSpeed * gameTime.ElapsedSec, MaximumTurnAngle);
-                Vehicle.Wheels[1].Shape.SteeringAngle = angle;
-                Vehicle.Wheels[3].Shape.SteeringAngle = angle;
-            }
-            if (!steered)
-            {
-                //Neither key was pressed, so de-steer.
-                if (Vehicle.Wheels[1].Shape.SteeringAngle > 0)
-                {
-                    angle = Math.Max(Vehicle.Wheels[1].Shape.SteeringAngle - TurnSpeed * gameTime.ElapsedSec, 0);
-                    Vehicle.Wheels[1].Shape.SteeringAngle = angle;
-                    Vehicle.Wheels[3].Shape.SteeringAngle = angle;
-                }
-                else
-                {
-                    angle = Math.Min(Vehicle.Wheels[1].Shape.SteeringAngle + TurnSpeed * gameTime.ElapsedSec, 0);
-                    Vehicle.Wheels[1].Shape.SteeringAngle = angle;
-                    Vehicle.Wheels[3].Shape.SteeringAngle = angle;
-                }
-            }
         }
 
         public void draw(StereoEye stereoEye)
         {
             this.DrawModel(stereoEye);
-            foreach(Tire t in tires)
-                t.DrawModel(stereoEye);
+            //foreach(Tire t in tires)
+              //  t.DrawModel(stereoEye);
         }
     }
 }

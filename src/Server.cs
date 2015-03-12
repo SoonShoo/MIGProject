@@ -33,6 +33,7 @@ namespace ExampleFlight
         private Field field;
         private SphereObject sphere;
         private Car car;
+        private Player player;
 
         public Server(Game game, GraphicsDevice graphicsDevice) : base(game)
         {
@@ -55,6 +56,7 @@ namespace ExampleFlight
             sphere = new SphereObject(Game, space, graphicsDevice);
             
             car = new Car(Game, graphicsDevice, BVector3.Zero);
+            player = new Player(car);
             car.AddToSpace(space);
 
             //environment = new Environment(this.Game, physicsWorld, graphicsDevice);
@@ -70,6 +72,7 @@ namespace ExampleFlight
             //jetAircraft.Update(gameTime);
             field.Update(gameTime, dr);
             sphere.Update(gameTime, dr, device);
+            player.Control(gameTime, device);
             car.Update(gameTime, dr, device);
             //jetAircraft.Update(gameTime);
             //carrier.Update(gameTime);
