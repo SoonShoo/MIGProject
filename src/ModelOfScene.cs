@@ -25,13 +25,15 @@ namespace ExampleFlight
         public string modelName;
         public string shaderName;
         public GraphicsDevice graphicsDevice;
-        public Matrix[] worldMatrixies;
+        public Matrix[] worldMatrixies = new Matrix[4];
+        public Fusion.Mathematics.Matrix worldMatrix;
 
         private Vector3 position;
         private Quaternion orientation;
         private float scaling =1;
         private Matrix rotation = Matrix.RotationYawPitchRoll(0, 0, 0);
 
+        public bool isImage = true;
 
         public void LoadContent(Game game, GraphicsDevice graphicsDevice, string modelName, string shaderName, int fl)
         {
@@ -45,7 +47,15 @@ namespace ExampleFlight
             if (fl == 1)
             {
                 foreach ( var mtrl in scene.Materials ) {
-			        mtrl.Tag	=	this.game.Content.Load<Texture2D>( mtrl.TexturePath );
+                    Console.WriteLine(mtrl.Name + " Tag: " + mtrl.Tag);
+                    if (mtrl.TexturePath != null)
+                    {
+                        mtrl.Tag = this.game.Content.Load<Texture2D>(mtrl.TexturePath);
+                    }
+                    else
+                    {
+                        mtrl.Tag = this.game.Content.Load<Texture2D>("backl01.png");
+                    }
 		        }
             }
 
@@ -59,7 +69,7 @@ namespace ExampleFlight
 
         public void SetPosition(float x, float y, float z)
         {
-            position = new Vector3(x, y, z);
+            this.position = new Vector3(x, y, z);
         }
 
         public void SetOrientation(Quaternion quaternion)
@@ -94,7 +104,7 @@ namespace ExampleFlight
         }
 
 
-
+        public Boolean flag = false;
         public void DrawModel(StereoEye stereoEye)
         {
             CBData cbData = new CBData();
@@ -105,23 +115,52 @@ namespace ExampleFlight
             var worldMatricies = new Matrix[scene.Nodes.Count];
             scene.CopyAbsoluteTransformsTo(worldMatricies);
             var j = 1;
+            position.Y += 1.5f;
             for (int i = 0; i < scene.Nodes.Count; i++)
             {
 
                 var node = scene.Nodes[i];
-
                 if (node.MeshIndex == -1)
                 {
                     continue;
+                }
+                if (!flag)
+                {
+                    Console.WriteLine("Name: "+node.Name+" Tag:"+node.Tag);
                 }
 
                 var mesh = scene.Meshes[node.MeshIndex];
 
                 cbData.Projection = cam.GetProjectionMatrix(stereoEye);
                 cbData.View = cam.GetViewMatrix(stereoEye);
-                cbData.World =  rotation * Matrix.AffineTransformation(scaling, orientation, position);//position * Matrix.RotationYawPitchRoll(orientation[0], 0, 0) * worldMatricies[i] * Matrix.Scaling((float)Math.Pow(scaling, 1));
-                cbData.ViewPos = new Vector4(cam.GetCameraMatrix( stereoEye ).TranslationVector, 1);
 
+                //cbData.World = rotation * Matrix.AffineTransformation(scaling, orientation, position);//position * Matrix.RotationYawPitchRoll(orientation[0], 0, 0) * worldMatricies[i] * Matrix.Scaling((float)Math.Pow(scaling, 1));
+                cbData.ViewPos = new Vector4(cam.GetCameraMatrix(stereoEye).TranslationVector, 1);
+
+                if (!node.Name.Contains("tyre"))
+                {
+                    //TODO: change
+                    cbData.World = rotation*Matrix.AffineTransformation(scaling, orientation, position);
+                    //cbData.World = worldMatrix*Fusion.Mathematics.Matrix.RotationAxis(Fusion.Mathematics.Vector3.Left, MathUtil.PiOverTwo);
+                    if(isImage)
+                        continue;
+                }
+                else
+                {
+                    //cbData.World = rotation * Matrix.AffineTransformation(scaling, orientation, position);
+                    if (node.Name.Contains("tyre01"))
+                    {
+                        cbData.World = worldMatrixies[0];
+                    }
+                    else if (node.Name.Contains("tyre02"))
+                        cbData.World = worldMatrixies[1];//*Matrix.AffineTransformation(scaling, orientation, position);
+                    else if (node.Name.Contains("tyre03"))
+                        cbData.World = worldMatrixies[2];//*Matrix.AffineTransformation(scaling, orientation, position);
+                    else if (node.Name.Contains("tyre04"))
+                        cbData.World = worldMatrixies[3];// *          Matrix.AffineTransformation(scaling, orientation, position);
+                    cbData.World *= rotation* Matrix.AffineTransformation(scaling, orientation, position);
+                }
+                //cbData.World = worldMatrix * Fusion.Mathematics.Matrix.RotationAxis(Fusion.Mathematics.Vector3.Left, MathUtil.PiOverTwo);
                 modelConstBuffer.SetData(cbData);
 
                 graphicsDevice.RasterizerState = RasterizerState.CullNone;
@@ -139,6 +178,87 @@ namespace ExampleFlight
                     mesh.Draw(subset.StartPrimitive, subset.PrimitiveCount);
                 }
             }
+            flag = true;
+        }
+
+        public Fusion.Mathematics.Matrix switchMatrixFromBepu(BEPUutilities.Matrix bepuMatrix)
+        {
+            //Fusion.Mathematics.Matrix.
+            return new Fusion.Mathematics.Matrix
+            {
+                M11 = bepuMatrix.M11,
+                M13 = bepuMatrix.M12,
+                M12 = bepuMatrix.M13,
+                M14 = bepuMatrix.M14,
+
+                M21 = bepuMatrix.M21,
+                M23 = bepuMatrix.M22,
+                M22 = bepuMatrix.M23,
+                M24 = bepuMatrix.M24,
+
+                M31 = bepuMatrix.M31,
+                M33 = bepuMatrix.M32,
+                M32 = bepuMatrix.M33,
+                M34 = bepuMatrix.M34,
+
+                M41 = bepuMatrix.M41,
+                M43 = bepuMatrix.M42,
+                M42 = bepuMatrix.M43,
+                M44 = bepuMatrix.M44,
+
+                //Backward = switchVectorFromBepu(bepuMatrix.Backward),
+                //Down = switchVectorFromBepu(bepuMatrix.Down),
+                //Forward = switchVectorFromBepu(bepuMatrix.Forward),
+                //Up = switchVectorFromBepu(bepuMatrix.Up),
+                //Left = switchVectorFromBepu(bepuMatrix.Left),
+                //Right = switchVectorFromBepu(bepuMatrix.Right),
+                //TranslationVector = switchVectorFromBepu(bepuMatrix.Translation),
+            };
+        }
+
+        public BEPUutilities.Matrix switchMatrixFromBepu(Fusion.Mathematics.Matrix bepuMatrix)
+        {
+            //Fusion.Mathematics.Matrix.
+            return new BEPUutilities.Matrix
+            {
+                M11 = bepuMatrix.M11,
+                M12 = bepuMatrix.M12,
+                M13 = bepuMatrix.M13,
+                M14 = bepuMatrix.M14,
+
+                M21 = bepuMatrix.M21,
+                M22 = bepuMatrix.M22,
+                M23 = bepuMatrix.M23,
+                M24 = bepuMatrix.M24,
+
+                M31 = bepuMatrix.M31,
+                M32 = bepuMatrix.M32,
+                M33 = bepuMatrix.M33,
+                M34 = bepuMatrix.M34,
+
+                M41 = bepuMatrix.M41,
+                M42 = bepuMatrix.M42,
+                M43 = bepuMatrix.M43,
+                M44 = bepuMatrix.M44,
+
+                //Backward = switchVectorFromBepu(bepuMatrix.Backward),
+                //Down = switchVectorFromBepu(bepuMatrix.Down),
+                //Forward = switchVectorFromBepu(bepuMatrix.Forward),
+                //Up = switchVectorFromBepu(bepuMatrix.Up),
+                //Left = switchVectorFromBepu(bepuMatrix.Left),
+                //Right = switchVectorFromBepu(bepuMatrix.Right),
+                //TranslationVector = switchVectorFromBepu(bepuMatrix.Translation),
+            };
+        }
+
+        public Fusion.Mathematics.Vector3 switchVectorFromBepu(BEPUutilities.Vector3 bepuVector3)
+        {
+            return new Fusion.Mathematics.Vector3
+            {
+                X = bepuVector3.X,
+                Y = bepuVector3.Z,
+                Z = bepuVector3.Y
+            };
         }
     }
 }

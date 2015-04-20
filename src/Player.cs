@@ -20,7 +20,6 @@ namespace ExampleFlight
     class Player
     {
         public Car car;
-
         public Player(Car car)
         {
             this.car = car;
@@ -46,14 +45,14 @@ namespace ExampleFlight
             if (gp.RightTrigger > 0)
             {
                 //Drive
-                car.Vehicle.Wheels[0].DrivingMotor.TargetSpeed = car.ForwardSpeed;
-                car.Vehicle.Wheels[2].DrivingMotor.TargetSpeed = car.ForwardSpeed;
+                car.Vehicle.Wheels[0].DrivingMotor.TargetSpeed = car.MaxForwardSpeed;
+                car.Vehicle.Wheels[2].DrivingMotor.TargetSpeed = car.MaxForwardSpeed;
             }
             else if (gp.LeftTrigger > 0)
             {
                 //Reverse
-                car.Vehicle.Wheels[0].DrivingMotor.TargetSpeed = car.BackwardSpeed;
-                car.Vehicle.Wheels[2].DrivingMotor.TargetSpeed = car.BackwardSpeed;
+                car.Vehicle.Wheels[0].DrivingMotor.TargetSpeed = car.MaxBackwardSpeed;
+                car.Vehicle.Wheels[2].DrivingMotor.TargetSpeed = car.MaxBackwardSpeed;
             }
             else
             {
@@ -125,74 +124,57 @@ namespace ExampleFlight
 
         private void initKeyboard(GameTime gameTime, InputDevice device)
         {
+            if (device.IsKeyDown(Keys.R))
+            {
+                car.SetPosition(0,0,0);
+            }
+
+            if (device.IsKeyDown(Keys.I))
+            {
+                car.isImage = true;
+            }
+            if (device.IsKeyDown(Keys.P))
+            {
+                car.isImage = false;
+            }
+
             if (device.IsKeyDown(Keys.Y))
             {
                 //Drive
-                car.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = car.ForwardSpeed;
-                car.Vehicle.Wheels[3].DrivingMotor.TargetSpeed = car.ForwardSpeed;
-                //Console.WriteLine(Vehicle.Wheels[1].DrivingMotor.TargetSpeed);
+                car.driveForward(gameTime);
             }
             else if (device.IsKeyDown(Keys.H))
             {
                 //Reverse
-                car.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = car.BackwardSpeed;
-                car.Vehicle.Wheels[3].DrivingMotor.TargetSpeed = car.BackwardSpeed;
+                car.driveBack(gameTime);
             }
             else
             {
-                //Idle
-                car.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = 0;
-                car.Vehicle.Wheels[3].DrivingMotor.TargetSpeed = 0;
+                car.driveIdle(gameTime);
             }
             if (device.IsKeyDown(Keys.Space))
             {
-                //Brake
-                foreach (Wheel wheel in car.Vehicle.Wheels)
-                {
-                    wheel.Brake.IsBraking = true;
-                }
+                car.brake(gameTime);
             }
             else
             {
-                //Release brake
-                foreach (Wheel wheel in car.Vehicle.Wheels)
-                {
-                    wheel.Brake.IsBraking = false;
-                }
+                car.unbrake();
             }
             //Use smooth steering; while held down, move towards maximum.
             //When not pressing any buttons, smoothly return to facing forward.
-            float angle;
-            bool steered = false;
+            car.steered = false;
             if (device.IsKeyDown(Keys.J))
             {
-                steered = true;
-                angle = Math.Max(car.Vehicle.Wheels[1].Shape.SteeringAngle - car.TurnSpeed * gameTime.ElapsedSec, -car.MaximumTurnAngle);
-                car.Vehicle.Wheels[1].Shape.SteeringAngle = angle;
-                car.Vehicle.Wheels[3].Shape.SteeringAngle = angle;
+                car.driveRight(gameTime);
             }
             if (device.IsKeyDown(Keys.G))
             {
-                steered = true;
-                angle = Math.Min(car.Vehicle.Wheels[1].Shape.SteeringAngle + car.TurnSpeed * gameTime.ElapsedSec, car.MaximumTurnAngle);
-                car.Vehicle.Wheels[1].Shape.SteeringAngle = angle;
-                car.Vehicle.Wheels[3].Shape.SteeringAngle = angle;
+                car.driveLeft(gameTime);
             }
-            if (!steered)
+            if (!car.steered)
             {
                 //Neither key was pressed, so de-steer.
-                if (car.Vehicle.Wheels[1].Shape.SteeringAngle > 0)
-                {
-                    angle = Math.Max(car.Vehicle.Wheels[1].Shape.SteeringAngle - car.TurnSpeed * gameTime.ElapsedSec, 0);
-                    car.Vehicle.Wheels[1].Shape.SteeringAngle = angle;
-                    car.Vehicle.Wheels[3].Shape.SteeringAngle = angle;
-                }
-                else
-                {
-                    angle = Math.Min(car.Vehicle.Wheels[1].Shape.SteeringAngle + car.TurnSpeed * gameTime.ElapsedSec, 0);
-                    car.Vehicle.Wheels[1].Shape.SteeringAngle = angle;
-                    car.Vehicle.Wheels[3].Shape.SteeringAngle = angle;
-                }
+                car.driveTurnIdle(gameTime);
             }
         }
     }

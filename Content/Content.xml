@@ -93,15 +93,6 @@
     <ShowPemutations>false</ShowPemutations>
     <ListingPath>E:\CodeProgram\VS2012\MIGProject\Content\Temp\F05101E373DD261A584ABAAD8A3615AB.html</ListingPath>
   </Asset>
-  <Asset xsi:type="FbxFileSceneAsset">
-    <AssetPath>scenes/mig29.fbx</AssetPath>
-    <BuildOrder>0</BuildOrder>
-    <IgnoreToolChanges>false</IgnoreToolChanges>
-    <SourceFile>scenes/mig29.fbx</SourceFile>
-    <MergeTolerance>0</MergeTolerance>
-    <ImportAnimation>false</ImportAnimation>
-    <ImportGeometry>true</ImportGeometry>
-  </Asset>
   <Asset xsi:type="ImageFileTextureAsset">
     <AssetPath>textures/MiG-29SMT_bodyDiff.JPG</AssetPath>
     <BuildOrder>0</BuildOrder>
@@ -382,46 +373,6 @@
     <Compression>RGB</Compression>
     <SourceFile>textures/rubka_base_lowpolyVRayNormalsMap_gi.png</SourceFile>
   </Asset>
-  <Asset xsi:type="FbxFileSceneAsset">
-    <AssetPath>scenes/carrier.fbx</AssetPath>
-    <BuildOrder>0</BuildOrder>
-    <IgnoreToolChanges>false</IgnoreToolChanges>
-    <SourceFile>scenes/carrier.fbx</SourceFile>
-    <MergeTolerance>0</MergeTolerance>
-    <ImportAnimation>false</ImportAnimation>
-    <ImportGeometry>true</ImportGeometry>
-  </Asset>
-  <Asset xsi:type="FbxFileSceneAsset">
-    <AssetPath>scenes/water.fbx</AssetPath>
-    <BuildOrder>0</BuildOrder>
-    <IgnoreToolChanges>false</IgnoreToolChanges>
-    <SourceFile>scenes/water.fbx</SourceFile>
-    <MergeTolerance>0</MergeTolerance>
-    <ImportAnimation>false</ImportAnimation>
-    <ImportGeometry>true</ImportGeometry>
-  </Asset>
-  <Asset xsi:type="FbxFileSceneAsset">
-    <AssetPath>scenes/cube.fbx</AssetPath>
-    <BuildOrder>0</BuildOrder>
-    <IgnoreToolChanges>false</IgnoreToolChanges>
-    <SourceFile>scenes/cube.fbx</SourceFile>
-    <MergeTolerance>0</MergeTolerance>
-    <ImportAnimation>false</ImportAnimation>
-    <ImportGeometry>true</ImportGeometry>
-  </Asset>
-  <Asset xsi:type="ImageFileTextureAsset">
-    <AssetPath>textures/Above_The_Sea.jpg</AssetPath>
-    <BuildOrder>0</BuildOrder>
-    <IgnoreToolChanges>false</IgnoreToolChanges>
-    <NoMips>false</NoMips>
-    <Fast>false</Fast>
-    <ToNormal>false</ToNormal>
-    <Color>true</Color>
-    <Alpha>false</Alpha>
-    <Normal>false</Normal>
-    <Compression>RGB</Compression>
-    <SourceFile>textures/Above_The_Sea.jpg</SourceFile>
-  </Asset>
   <Asset xsi:type="ImageFileTextureAsset">
     <AssetPath>textures/waterNoiseHF.tga</AssetPath>
     <BuildOrder>0</BuildOrder>
@@ -448,20 +399,76 @@
     <Compression>RGB</Compression>
     <SourceFile>textures/waterHFNoise.tga</SourceFile>
   </Asset>
-  <Asset xsi:type="FbxFileSceneAsset">
-    <AssetPath>CAR_iso2.fbx</AssetPath>
+  <Asset xsi:type="ImageFileTextureAsset">
+    <AssetPath>backl01.png</AssetPath>
     <BuildOrder>0</BuildOrder>
     <IgnoreToolChanges>false</IgnoreToolChanges>
-    <SourceFile>CAR_iso2.fbx</SourceFile>
-    <MergeTolerance>0</MergeTolerance>
-    <ImportAnimation>false</ImportAnimation>
-    <ImportGeometry>true</ImportGeometry>
+    <NoMips>false</NoMips>
+    <Fast>false</Fast>
+    <ToNormal>false</ToNormal>
+    <Color>true</Color>
+    <Alpha>false</Alpha>
+    <Normal>false</Normal>
+    <Compression>RGB</Compression>
+    <SourceFile>backl01.png</SourceFile>
+  </Asset>
+  <Asset xsi:type="ImageFileTextureAsset">
+    <AssetPath>grille.png</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <NoMips>false</NoMips>
+    <Fast>false</Fast>
+    <ToNormal>false</ToNormal>
+    <Color>true</Color>
+    <Alpha>false</Alpha>
+    <Normal>false</Normal>
+    <Compression>RGB</Compression>
+    <SourceFile>grille.png</SourceFile>
+  </Asset>
+  <Asset xsi:type="ImageFileTextureAsset">
+    <AssetPath>logo.png</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <NoMips>false</NoMips>
+    <Fast>false</Fast>
+    <ToNormal>false</ToNormal>
+    <Color>true</Color>
+    <Alpha>false</Alpha>
+    <Normal>false</Normal>
+    <Compression>RGB</Compression>
+    <SourceFile>logo.png</SourceFile>
+  </Asset>
+  <Asset xsi:type="ImageFileTextureAsset">
+    <AssetPath>rs4-tire.png</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <NoMips>false</NoMips>
+    <Fast>false</Fast>
+    <ToNormal>false</ToNormal>
+    <Color>true</Color>
+    <Alpha>false</Alpha>
+    <Normal>false</Normal>
+    <Compression>RGB</Compression>
+    <SourceFile>rs4-tire.png</SourceFile>
+  </Asset>
+  <Asset xsi:type="ImageFileTextureAsset">
+    <AssetPath>sidelg.png</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <NoMips>false</NoMips>
+    <Fast>false</Fast>
+    <ToNormal>false</ToNormal>
+    <Color>true</Color>
+    <Alpha>false</Alpha>
+    <Normal>false</Normal>
+    <Compression>RGB</Compression>
+    <SourceFile>sidelg.png</SourceFile>
   </Asset>
   <Asset xsi:type="FbxFileSceneAsset">
-    <AssetPath>tire.fbx</AssetPath>
+    <AssetPath>alfa_ansi.fbx</AssetPath>
     <BuildOrder>0</BuildOrder>
     <IgnoreToolChanges>false</IgnoreToolChanges>
-    <SourceFile>tire.fbx</SourceFile>
+    <SourceFile>alfa_ansi.fbx</SourceFile>
     <MergeTolerance>0</MergeTolerance>
     <ImportAnimation>false</ImportAnimation>
     <ImportGeometry>true</ImportGeometry>

@@ -21,14 +21,8 @@ namespace ExampleFlight
 {
     public class Server : GameService
     {
-
-        Aircraft jetAircraft;
-        private Carrier carrier;
-
-        Environment environment;
-        World physicsWorld;
         GraphicsDevice graphicsDevice;
-        
+   
         private Space space;
         private Field field;
         private SphereObject sphere;
@@ -42,55 +36,32 @@ namespace ExampleFlight
 
         public void Init()
         {
-            //initialization
-            //...
-            jetAircraft = new Aircraft(this.Game, physicsWorld, graphicsDevice);
-
-            //environment = new Environment(this.Game, physicsWorld, graphicsDevice);
-            
             space=new Space();
             space.ForceUpdater.Gravity = new BVector3(0, 0, -9.81f);
-            
             field = new Field(Game, space, graphicsDevice);
-
             sphere = new SphereObject(Game, space, graphicsDevice);
             
-            car = new Car(Game, graphicsDevice, BVector3.Zero);
-            player = new Player(car);
+            car = new Car(Game, graphicsDevice, new BVector3(0,0,0));
             car.AddToSpace(space);
 
-            //environment = new Environment(this.Game, physicsWorld, graphicsDevice);
-           // carrier = new Carrier(this.Game, physicsWorld, graphicsDevice);
+            player = new Player(car);
         }
 
         public void Update(GameTime gameTime, DebugRender dr, InputDevice device)
         {
-            //Updating
-            //...
-
             space.Update(gameTime.ElapsedSec * 10f);
-            //jetAircraft.Update(gameTime);
+
             field.Update(gameTime, dr);
             sphere.Update(gameTime, dr, device);
             player.Control(gameTime, device);
             car.Update(gameTime, dr, device);
-            //jetAircraft.Update(gameTime);
-            //carrier.Update(gameTime);
-
         }
 
         public override void Draw(GameTime gameTime, StereoEye stereoEye)
         {
             //Drawing
             //...
-            //field.DrawModel(1.0f, stereoEye);
-            //jetAircraft.Draw(gameTime, stereoEye);
             car.draw(stereoEye);
-            //environment.Draw(gameTime, stereoEye);
-            
-            //jetAircraft.Draw(gameTime);
-            //carrier.Draw(gameTime);
-           // environment.Draw(gameTime);
             base.Draw(gameTime, stereoEye);
         }
 

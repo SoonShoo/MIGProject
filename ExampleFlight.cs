@@ -148,7 +148,6 @@ namespace ExampleFlight
             dr.View = cam.GetViewMatrix(StereoEye.Mono);
             dr.Projection = cam.GetProjectionMatrix(StereoEye.Mono);
             server.Update(gameTime, dr, InputDevice);
-            dr.DrawGrid(10);
             base.Update(gameTime);
         }
 

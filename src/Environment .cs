@@ -17,8 +17,6 @@ namespace ExampleFlight
 {
     class Environment
     {
-        Water water;
-        SkyBox skyBox;
         Game game;
         World world;
         GraphicsDevice graphicsDevice;
@@ -27,8 +25,6 @@ namespace ExampleFlight
         {
             this.game = game;
             this.graphicsDevice = graphicsDevice;
-            water = new Water(game, graphicsDevice);
-            skyBox = new SkyBox(game, graphicsDevice);
             this.world = world;
         }
         public void Init()
