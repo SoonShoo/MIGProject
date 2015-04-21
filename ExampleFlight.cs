@@ -160,9 +160,6 @@ namespace ExampleFlight
         /// <param name="stereoEye"></param>
         protected override void Draw(GameTime gameTime, StereoEye stereoEye)
         {
-           // migPlane.DrawModel();
-            GraphicsDevice.ClearBackbuffer(Color.CornflowerBlue, 1, 0);
-
             server.Update(gameTime);
             server.Draw(gameTime, stereoEye);
             base.Draw(gameTime, stereoEye);

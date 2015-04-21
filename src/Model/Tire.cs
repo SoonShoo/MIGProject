@@ -38,8 +38,8 @@ namespace ExampleFlight.src.Model
         private const float staticBrakingFrictionCoefficient = 2;
         private const float rollingFrictionCoefficient = .02f;
         //WheelSlidingFriction
-        private const float dynamicCoefficient = 1;
-        private const float staticCoefficient = 1;
+        private const float dynamicCoefficient = 0.1f;
+        private const float staticCoefficient = 0.1f;
 
         public Tire(Game game, GraphicsDevice graphicsDevice, Vector3 position)
         {
@@ -78,9 +78,9 @@ namespace ExampleFlight.src.Model
         public void Update(GameTime gameTime, DebugRender dr)
         {
             SetPosition(wheel.SupportLocation.X, wheel.SupportLocation.Z, wheel.SupportLocation.Y);
-            dr.DrawSphere(
-                new Fusion.Mathematics.Vector3(wheel.SupportLocation.X, wheel.SupportLocation.Z, wheel.SupportLocation.Y),
-                radius, Fusion.Mathematics.Color.Red);
+            //dr.DrawSphere(
+            //    new Fusion.Mathematics.Vector3(wheel.SupportLocation.X, wheel.SupportLocation.Z, wheel.SupportLocation.Y),
+            //    radius, Fusion.Mathematics.Color.Red);
         }
     }
 }

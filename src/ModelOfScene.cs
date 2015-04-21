@@ -34,6 +34,7 @@ namespace ExampleFlight
         private Matrix rotation = Matrix.RotationYawPitchRoll(0, 0, 0);
 
         public bool isImage = true;
+        public bool isPrint = false;
 
         public void LoadContent(Game game, GraphicsDevice graphicsDevice, string modelName, string shaderName, int fl)
         {
@@ -103,8 +104,6 @@ namespace ExampleFlight
             Log.Message("{0}", scene.Nodes.Count(n => n.MeshIndex >= 0));
         }
 
-
-        public Boolean flag = false;
         public void DrawModel(StereoEye stereoEye)
         {
             CBData cbData = new CBData();
@@ -124,7 +123,7 @@ namespace ExampleFlight
                 {
                     continue;
                 }
-                if (!flag)
+                if (!isPrint)
                 {
                     Console.WriteLine("Name: "+node.Name+" Tag:"+node.Tag);
                 }
@@ -153,12 +152,21 @@ namespace ExampleFlight
                         cbData.World = worldMatrixies[0];
                     }
                     else if (node.Name.Contains("tyre02"))
+                    {
                         cbData.World = worldMatrixies[1];//*Matrix.AffineTransformation(scaling, orientation, position);
+                    }
                     else if (node.Name.Contains("tyre03"))
-                        cbData.World = worldMatrixies[2];//*Matrix.AffineTransformation(scaling, orientation, position);
+                    {
+                        cbData.World = worldMatrixies[2];
+                            //*Matrix.AffineTransformation(scaling, orientation, position);
+                    }
                     else if (node.Name.Contains("tyre04"))
-                        cbData.World = worldMatrixies[3];// *          Matrix.AffineTransformation(scaling, orientation, position);
+                    {
+                        cbData.World = worldMatrixies[3];
+                        // *          Matrix.AffineTransformation(scaling, orientation, position);
+                    }
                     cbData.World *= rotation* Matrix.AffineTransformation(scaling, orientation, position);
+
                 }
                 //cbData.World = worldMatrix * Fusion.Mathematics.Matrix.RotationAxis(Fusion.Mathematics.Vector3.Left, MathUtil.PiOverTwo);
                 modelConstBuffer.SetData(cbData);
@@ -178,12 +186,11 @@ namespace ExampleFlight
                     mesh.Draw(subset.StartPrimitive, subset.PrimitiveCount);
                 }
             }
-            flag = true;
+            isPrint = true;
         }
 
         public Fusion.Mathematics.Matrix switchMatrixFromBepu(BEPUutilities.Matrix bepuMatrix)
         {
-            //Fusion.Mathematics.Matrix.
             return new Fusion.Mathematics.Matrix
             {
                 M11 = bepuMatrix.M11,
@@ -218,7 +225,6 @@ namespace ExampleFlight
 
         public BEPUutilities.Matrix switchMatrixFromBepu(Fusion.Mathematics.Matrix bepuMatrix)
         {
-            //Fusion.Mathematics.Matrix.
             return new BEPUutilities.Matrix
             {
                 M11 = bepuMatrix.M11,

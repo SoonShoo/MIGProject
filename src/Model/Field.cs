@@ -65,8 +65,8 @@ namespace ExampleFlight.src.Model
 
         internal void Update(GameTime gameTime, DebugRender dr)
         {
-            dr.DrawBox(new BoundingBox(new Fusion.Mathematics.Vector3(-coorX/2, 0, -coorY/2), new Fusion.Mathematics.Vector3(coorX/2, coorZ, coorY/2)), Color.Cyan);
-            dr.DrawGrid(100);
+           // dr.DrawBox(new BoundingBox(new Fusion.Mathematics.Vector3(-coorX/2, 0, -coorY/2), new Fusion.Mathematics.Vector3(coorX/2, coorZ, coorY/2)), Color.Cyan);
+            //dr.DrawGrid(100);
             
             foreach (Cylinder cylin in objectTrace)
             {

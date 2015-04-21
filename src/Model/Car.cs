@@ -32,7 +32,7 @@ namespace ExampleFlight.src.Model
         private const float lengthCar = 9f;
         private const float heightCar = 1f;
 
-        private const float masseCar = 1000;
+        private const float masseCar = 100;
 
         private float brakeCoeff = 0.50f;
         private float brakeGas = 0.70f;
@@ -67,6 +67,7 @@ namespace ExampleFlight.src.Model
 
         private void initPhysics(Vector3 position)
         {
+            // TODO: return toc complex body!
             //var bodies = new List<CompoundShapeEntry>
             //    {
             //        new CompoundShapeEntry(new BoxShape(widthCar, heightCar*0.7f, lengthCar), position, masseCar/3/2),
