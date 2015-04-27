@@ -88,6 +88,21 @@ namespace ExampleFlight
             this.rotation = Matrix.RotationYawPitchRoll(rotation.X, rotation.Y, rotation.Z);
         }
 
+        public Matrix getRotation()
+        {
+            return this.rotation;
+        }
+
+        public Quaternion getOrientation()
+        {
+            return this.orientation;
+        }
+
+        public Vector3 getPosition()
+        {
+            return this.position;
+        }
+
         public enum RenderFlags
         {
             None,
@@ -125,7 +140,7 @@ namespace ExampleFlight
                 }
                 if (!isPrint)
                 {
-                    Console.WriteLine("Name: "+node.Name+" Tag:"+node.Tag);
+                    Console.WriteLine("Name: "+node.Name+" Tag:"+node.Tag + "Matrix:" + node.Transform.TranslationVector);
                 }
 
                 var mesh = scene.Meshes[node.MeshIndex];
@@ -139,34 +154,30 @@ namespace ExampleFlight
                 if (!node.Name.Contains("tyre"))
                 {
                     //TODO: change
-                    cbData.World = rotation*Matrix.AffineTransformation(scaling, orientation, position);
+                    cbData.World = worldMatrix;
+                    //cbData.World = rotation*Matrix.AffineTransformation(scaling, orientation, position);
                     //cbData.World = worldMatrix*Fusion.Mathematics.Matrix.RotationAxis(Fusion.Mathematics.Vector3.Left, MathUtil.PiOverTwo);
                     if(isImage)
                         continue;
                 }
                 else
                 {
-                    //cbData.World = rotation * Matrix.AffineTransformation(scaling, orientation, position);
                     if (node.Name.Contains("tyre01"))
                     {
                         cbData.World = worldMatrixies[0];
                     }
                     else if (node.Name.Contains("tyre02"))
                     {
-                        cbData.World = worldMatrixies[1];//*Matrix.AffineTransformation(scaling, orientation, position);
+                        cbData.World = worldMatrixies[1];
                     }
                     else if (node.Name.Contains("tyre03"))
                     {
                         cbData.World = worldMatrixies[2];
-                            //*Matrix.AffineTransformation(scaling, orientation, position);
                     }
                     else if (node.Name.Contains("tyre04"))
                     {
                         cbData.World = worldMatrixies[3];
-                        // *          Matrix.AffineTransformation(scaling, orientation, position);
                     }
-                    cbData.World *= rotation* Matrix.AffineTransformation(scaling, orientation, position);
-
                 }
                 //cbData.World = worldMatrix * Fusion.Mathematics.Matrix.RotationAxis(Fusion.Mathematics.Vector3.Left, MathUtil.PiOverTwo);
                 modelConstBuffer.SetData(cbData);

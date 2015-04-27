@@ -29,7 +29,7 @@ namespace ExampleFlight.src.Model
         public Vehicle Vehicle;
 
         private const float widthCar = 5f;
-        private const float lengthCar = 9f;
+        private const float lengthCar = 8f;
         private const float heightCar = 1f;
 
         private const float masseCar = 100;
@@ -54,10 +54,10 @@ namespace ExampleFlight.src.Model
             SetPosition(position.X, position.Z, position.Y);
             wheelpositionList = new List<Vector3>()
             {
-                new Vector3(-widthCar/2+0.5f + position.X, heightCar*0.1f + position.Z, lengthCar/2 - 0.2f + position.Y),
-                new Vector3(-widthCar/2+0.5f + position.X, heightCar*0.1f + position.Z, -lengthCar/2 + 0.2f + position.Y),
-                new Vector3(widthCar/2-0.5f + position.X, heightCar*0.1f + position.Z, lengthCar/2  - 0.2f + position.Y),
-                new Vector3(widthCar/2-0.5f + position.X, heightCar*0.1f + position.Z, -lengthCar/2 + 0.2f + position.Y)
+                new Vector3(-widthCar/2+0.2f + position.X, heightCar*0.1f + position.Z, lengthCar/2  + position.Y),
+                new Vector3(-widthCar/2+0.2f + position.X, heightCar*0.1f + position.Z, -lengthCar/2  + position.Y),
+                new Vector3(widthCar/2-0.5f + position.X, heightCar*0.1f + position.Z, lengthCar/2   + position.Y),
+                new Vector3(widthCar/2-0.5f + position.X, heightCar*0.1f + position.Z, -lengthCar/2  + position.Y)
             };
             //worldMatrix = Fusion.Mathematics.Matrix.Translation(position.X, position.Y, position.Z);
             initPhysics(position);
@@ -100,28 +100,20 @@ namespace ExampleFlight.src.Model
 
         public void Update(GameTime gameTime, DebugRender dr, InputDevice device)
         {
-
-
             SetPosition(Vehicle.Body.Position.X, Vehicle.Body.Position.Z, Vehicle.Body.Position.Y);
-            worldMatrix = switchMatrixFromBepu(Vehicle.Body.WorldTransform);
-           // TODO: change WorlTransform
             var o = Vehicle.Body.Orientation;
             SetOrientation(new Fusion.Mathematics.Quaternion(o.W, o.X, o.Y, o.Z));
-
+            worldMatrix = getRotation()*Fusion.Mathematics.Matrix.AffineTransformation(scaling, this.getOrientation(), this.getPosition()); ;
             for (int i = 0; i < tires.Count; i++)
             {
                 tires[i].Update(gameTime, dr);
-                //worldMatrixies[i] = Fusion.Mathematics.Matrix.Identity;
-                // TODO: change world transfrom
-               // worldMatrixies[i] = switchMatrixFromBepu(Vehicle.Wheels[i].Shape.WorldTransform);
-                 // worldMatrixies[i] = Fusion.Mathematics.Matrix.AffineTransformation(scaling, Fusion.Mathematics.Quaternion.One, switchVectorFromBepu(tires[i].getWheel().SupportLocation));
-                //worldMatrixies[i] = switchMatrixFromBepu(Matrix.CreateFromAxisAngle(new Vector3(0, 0, -1), tires[i].getWheel().Shape.SteeringAngle / 2) * Matrix.CreateFromAxisAngle(Vector3.Left, Fusion.Mathematics.MathUtil.PiOverTwo));
-                worldMatrixies[i] = Fusion.Mathematics.Matrix.RotationAxis(Fusion.Mathematics.Vector3.ForwardLH,
-                    tires[i].getWheel().Shape.SteeringAngle/2 + MathHelper.Pi);
-                // * Fusion.Mathematics.Matrix.AffineTransformation(1, Fusion.Mathematics.Quaternion.Identity, switchVectorFromBepu(tires[i].getWheel().SupportLocation));
-                //switchMatrixFromBepu(tires[i].getWheel().Shape.WorldTransform);
-                //worldMatrixies[i].Invert()
+                var rotation = switchMatrixFromBepu(Matrix.CreateFromAxisAngle(new Vector3(0, 0, -1), tires[i].getWheel().Shape.SteeringAngle / 2) * Matrix.CreateFromAxisAngle(Vector3.Left, Fusion.Mathematics.MathUtil.PiOverTwo));
+                worldMatrixies[i] = rotation * getRotation() * Fusion.Mathematics.Matrix.AffineTransformation(scaling, getOrientation(), getPosition());
             }
+
+            var posMin = new Fusion.Mathematics.Vector3(Vehicle.Body.Position.X - widthCar/2, Vehicle.Body.Position.Z, Vehicle.Body.Position.Y - lengthCar/2);
+            var posMax = new Fusion.Mathematics.Vector3(Vehicle.Body.Position.X + widthCar/2, Vehicle.Body.Position.Z+heightCar, Vehicle.Body.Position.Y + lengthCar/2);
+            dr.DrawBox(new Fusion.Mathematics.BoundingBox(posMin, posMax), Color.Red);
             dr.DrawSphere(new Fusion.Mathematics.Vector3(Vehicle.Body.Position.X, Vehicle.Body.Position.Z, Vehicle.Body.Position.Y), heightCar, Color.Red);
         }
 
@@ -157,8 +149,8 @@ namespace ExampleFlight.src.Model
             else
             {
                 //brake
-                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += (float)Math.Pow(gameTime.ElapsedSec, brakeGas);
-                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += (float)Math.Pow(gameTime.ElapsedSec, brakeGas);
+                //this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += (float)Math.Pow(gameTime.ElapsedSec, brakeGas);
+                //this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += (float)Math.Pow(gameTime.ElapsedSec, brakeGas);
             }
         }
 
@@ -176,13 +168,20 @@ namespace ExampleFlight.src.Model
             else
             {
                 // brake
-                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed -= (float)Math.Pow(gameTime.ElapsedSec, brakeGas);
-                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed -= (float)Math.Pow(gameTime.ElapsedSec, brakeGas);
+                //this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed -= (float)Math.Pow(gameTime.ElapsedSec, brakeGas);
+                //this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed -= (float)Math.Pow(gameTime.ElapsedSec, brakeGas);
             }
         }
 
         public void brake(GameTime gameTime)
         {
+            if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed>0 && this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 0.001 ||
+                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed<0 && this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed > -0.001)
+            {
+                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = 0;
+                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed = 0;
+            }
+
             if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed > 0)
             {
                 this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed -= (float)Math.Pow(gameTime.ElapsedSec, brakeCoeff);
@@ -212,16 +211,16 @@ namespace ExampleFlight.src.Model
 
         public void driveIdle(GameTime gameTime)
         {
-            if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed > 0)
-            {
-                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += -gameTime.ElapsedSec / 2;
-                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += -gameTime.ElapsedSec / 2;
-            }
-            else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 0)
-            {
-                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += gameTime.ElapsedSec / 2;
-                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += gameTime.ElapsedSec / 2;
-            }
+            //if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed > 0)
+            //{
+            //    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += -gameTime.ElapsedSec / 2;
+            //    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += -gameTime.ElapsedSec / 2;
+            //}
+            //else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 0)
+            //{
+            //    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += gameTime.ElapsedSec / 2;
+            //    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += gameTime.ElapsedSec / 2;
+            //}
         }
 
 
