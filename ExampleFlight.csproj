@@ -64,6 +64,7 @@
     <Compile Include="src\Model\Field.cs" />
     <Compile Include="src\Model\SphereObject.cs" />
     <Compile Include="src\Model\Player.cs" />
+    <Compile Include="src\Model\TireConfig.cs" />
     <Compile Include="src\Server.cs" />
     <Compile Include="src\World.cs" />
   </ItemGroup>

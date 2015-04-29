@@ -473,4 +473,13 @@
     <ImportAnimation>false</ImportAnimation>
     <ImportGeometry>true</ImportGeometry>
   </Asset>
+  <Asset xsi:type="FbxFileSceneAsset">
+    <AssetPath>field.fbx</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <SourceFile>field.fbx</SourceFile>
+    <MergeTolerance>0</MergeTolerance>
+    <ImportAnimation>false</ImportAnimation>
+    <ImportGeometry>true</ImportGeometry>
+  </Asset>
 </ArrayOfAsset>

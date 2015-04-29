@@ -28,6 +28,9 @@ namespace ExampleFlight
         private SphereObject sphere;
         private Car car;
         private Player player;
+        private Environment environment;
+
+        private const float scale = 7000;
 
         public Server(Game game, GraphicsDevice graphicsDevice) : base(game)
         {
@@ -38,7 +41,10 @@ namespace ExampleFlight
         {
             space=new Space();
             space.ForceUpdater.Gravity = new BVector3(0, 0, -9.81f);
-            field = new Field(Game, space, graphicsDevice);
+
+            field = new Field(Game, space, graphicsDevice, scale);
+            environment = new Environment(Game, graphicsDevice, scale);
+
             sphere = new SphereObject(Game, space, graphicsDevice);
             
             car = new Car(Game, graphicsDevice, new BVector3(0,0,0));
@@ -47,14 +53,15 @@ namespace ExampleFlight
             player = new Player(car);
         }
 
-        public void Update(GameTime gameTime, DebugRender dr, InputDevice device)
+        public void Update(GameTime gameTime, DebugRender dr, InputDevice device, Camera cam)
         {
             space.Update(gameTime.ElapsedSec * 10f);
 
             field.Update(gameTime, dr);
+
             sphere.Update(gameTime, dr, device);
             player.Control(gameTime, device);
-            car.Update(gameTime, dr, device);
+            car.Update(gameTime, dr, device, cam);
         }
 
         public override void Draw(GameTime gameTime, StereoEye stereoEye)
@@ -62,6 +69,8 @@ namespace ExampleFlight
             //Drawing
             //...
             car.draw(stereoEye);
+            field.DrawModel(stereoEye);
+            environment.DrawModel(stereoEye);
             base.Draw(gameTime, stereoEye);
         }
 

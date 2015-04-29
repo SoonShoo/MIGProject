@@ -24,22 +24,27 @@ namespace ExampleFlight.src.Model
         private const float radius=1f;
         private const float width = 0.5f;
         //WheelSuspension
-        private const float stiffnessConstant = 2000;
-        private const float dampingConstant = 100f;
+        private const float stiffnessConstant = 10000;
+        private const float dampingConstant = 5000f;
         private Vector3 localDirection = Vector3.Down;
-        private const float restLength = 1.325f;
+        private const float restLength = 0.725f;
         private Vector3 localAttachmentPoint;
         // WheelDrivingMotor
         private const float gripFriction = 2.5f;
         private const float maximumForwardForce = 30000;
         private const float maximumBackwardForce = 10000;
         // WheelBrake
-        private const float dynamicBrakingFrictionCoefficient = 1.5f;
-        private const float staticBrakingFrictionCoefficient = 2;
+        private const float dynamicBrakingFrictionCoefficient = 10.5f;
+        private const float staticBrakingFrictionCoefficient = 20;
         private const float rollingFrictionCoefficient = .02f;
         //WheelSlidingFriction
         private const float dynamicCoefficient = 1f;
         private const float staticCoefficient = 1f;
+
+        public float getRollingFrictionCoefficient()
+        {
+            return rollingFrictionCoefficient;
+        }
 
         public Tire(Game game, GraphicsDevice graphicsDevice, Vector3 position)
         {

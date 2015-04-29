@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExampleFlight.src.Model;
 using Fusion;
 using Fusion.Audio;
 using Fusion.Content;
@@ -34,6 +35,7 @@ namespace ExampleFlight
             AddService(new DebugStrings(this), true, true, 9999, 9999);
             AddService(new DebugRender(this), true, true, 9998, 9998);
             AddService(new Camera(this), true, false, 1, 1);
+           // AddService(new Tire(this), true, false, 1, 1);
 
             //	load configuration :
             LoadConfiguration();
@@ -58,8 +60,6 @@ namespace ExampleFlight
             server = new Server(this, GraphicsDevice);
             server.Init();
             GetService<Camera>().FreeCamPosition = Vector3.Up;
-
-
             GetService<Camera>().FreeCamPosition = Vector3.Up * 10;
         }
 
@@ -147,7 +147,7 @@ namespace ExampleFlight
             var dr = GetService<DebugRender>();
             dr.View = cam.GetViewMatrix(StereoEye.Mono);
             dr.Projection = cam.GetProjectionMatrix(StereoEye.Mono);
-            server.Update(gameTime, dr, InputDevice);
+            server.Update(gameTime, dr, InputDevice, cam);
             base.Update(gameTime);
         }
 
@@ -160,7 +160,7 @@ namespace ExampleFlight
         /// <param name="stereoEye"></param>
         protected override void Draw(GameTime gameTime, StereoEye stereoEye)
         {
-            server.Update(gameTime);
+            //server.Update(gameTime);
             server.Draw(gameTime, stereoEye);
             base.Draw(gameTime, stereoEye);
         }

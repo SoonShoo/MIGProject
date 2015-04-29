@@ -15,40 +15,22 @@ using Vector3 = Fusion.Mathematics.Vector3;
 
 namespace ExampleFlight
 {
-    class Environment
+    class Environment : ModelOfScene
     {
         Game game;
-        World world;
         GraphicsDevice graphicsDevice;
 
-        public Environment(Game game, World world, GraphicsDevice graphicsDevice)
+        const string shaderName = "render2";
+
+        public Environment(Game game, GraphicsDevice graphicsDevice, float scale)
         {
             this.game = game;
             this.graphicsDevice = graphicsDevice;
-            this.world = world;
-        }
-        public void Init()
-        {
-           
-        }
-
-        public void UpdatePhysics(GameTime gameTime)
-        {
-            //Physics of plane
-            //...
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            //Update plane
-            //...
-            //var scaling = 0.3f;
-            UpdatePhysics(gameTime);
-        }
-
-        public void Draw(GameTime gameTime, StereoEye stereoEye)
-        {
-
+            base.LoadContent(game, graphicsDevice, "field", shaderName, 1);
+            this.setScaling(scale);
+            game.Reloading += (s, e) => this.Reload();
+            this.SetPosition(0.0f, 0.05f, 0.0f);
+            worldMatrix = Fusion.Mathematics.Matrix.Identity * Fusion.Mathematics.Matrix.AffineTransformation(scale, Fusion.Mathematics.Quaternion.Zero, getPosition());
         }
     }
 }

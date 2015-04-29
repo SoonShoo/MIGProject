@@ -26,14 +26,14 @@ namespace ExampleFlight
         public string shaderName;
         public GraphicsDevice graphicsDevice;
         public Matrix[] worldMatrixies = new Matrix[4];
-        public Fusion.Mathematics.Matrix worldMatrix;
+        public Fusion.Mathematics.Matrix worldMatrix = Matrix.Identity;
 
         private Vector3 position;
         private Quaternion orientation;
         private float scaling =1;
         private Matrix rotation = Matrix.RotationYawPitchRoll(0, 0, 0);
 
-        public bool isImage = true;
+        public bool isImage = false;
         public bool isPrint = false;
 
         public void LoadContent(Game game, GraphicsDevice graphicsDevice, string modelName, string shaderName, int fl)
@@ -71,6 +71,11 @@ namespace ExampleFlight
         public void SetPosition(float x, float y, float z)
         {
             this.position = new Vector3(x, y, z);
+        }
+
+        public void SetPosition(Vector3 position)
+        {
+            this.position = position;
         }
 
         public void SetOrientation(Quaternion quaternion)
@@ -129,7 +134,6 @@ namespace ExampleFlight
             var worldMatricies = new Matrix[scene.Nodes.Count];
             scene.CopyAbsoluteTransformsTo(worldMatricies);
             var j = 1;
-            position.Y += 1.5f;
             for (int i = 0; i < scene.Nodes.Count; i++)
             {
 
@@ -157,8 +161,8 @@ namespace ExampleFlight
                     cbData.World = worldMatrix;
                     //cbData.World = rotation*Matrix.AffineTransformation(scaling, orientation, position);
                     //cbData.World = worldMatrix*Fusion.Mathematics.Matrix.RotationAxis(Fusion.Mathematics.Vector3.Left, MathUtil.PiOverTwo);
-                    if(isImage)
-                        continue;
+                    //if(!isImage)
+                       // continue;
                 }
                 else
                 {
