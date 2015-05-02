@@ -54,15 +54,13 @@ namespace ExampleFlight.src.Model
 
         public Car(Game game, GraphicsDevice grDevice, Vector3 position)
         {
-
             base.LoadContent(game, grDevice, modelName, shaderName, 1);
-            SetPosition(position.X, position.Z, position.Y);
             wheelpositionList = new List<Vector3>()
             {
-                new Vector3(-widthCar/2+0.2f + position.X, heightCar*0.1f + position.Z, lengthCar/2  + position.Y),
-                new Vector3(-widthCar/2+0.2f + position.X, heightCar*0.1f + position.Z, -lengthCar/2  + position.Y),
-                new Vector3(widthCar/2-0.5f + position.X, heightCar*0.1f + position.Z, lengthCar/2   + position.Y),
-                new Vector3(widthCar/2-0.5f + position.X, heightCar*0.1f + position.Z, -lengthCar/2  + position.Y)
+                new Vector3(-widthCar/2+0.2f, heightCar*0.1f, lengthCar/2),
+                new Vector3(-widthCar/2+0.2f, heightCar*0.1f, -lengthCar/2),
+                new Vector3(widthCar/2-0.5f, heightCar*0.1f, lengthCar/2),
+                new Vector3(widthCar/2-0.5f, heightCar*0.1f, -lengthCar/2)
             };
             //worldMatrix = Fusion.Mathematics.Matrix.Translation(position.X, position.Y, position.Z);
             initPhysics(position);
@@ -80,12 +78,12 @@ namespace ExampleFlight.src.Model
             //    };
             //var body = new CompoundBody(bodies, masseCar);
             Box body = new Box(position, widthCar, heightCar * 0.7f, lengthCar, masseCar);
-            body.CollisionInformation.LocalPosition = new Vector3(position.X, position.Z, position.Y);
+            body.CollisionInformation.LocalPosition = new Vector3(0, 0, 0);
             Vehicle = new Vehicle(body);
 
             foreach (Vector3 pos in wheelpositionList)
             {
-                Tire t = new Tire(game, graphicsDevice ,pos);
+                Tire t = new Tire(game, pos);
                 tires.Add(t);
                 Vehicle.AddWheel(t.getWheel());
             }
@@ -260,10 +258,10 @@ namespace ExampleFlight.src.Model
 
         public void unbrake()
         {
-            this.Vehicle.Wheels[1].Brake.RollingFrictionCoefficient = this.tires[1].getRollingFrictionCoefficient();
-            this.Vehicle.Wheels[3].Brake.RollingFrictionCoefficient = this.tires[3].getRollingFrictionCoefficient();
-            this.Vehicle.Wheels[0].Brake.RollingFrictionCoefficient = this.tires[0].getRollingFrictionCoefficient();
-            this.Vehicle.Wheels[2].Brake.RollingFrictionCoefficient = this.tires[2].getRollingFrictionCoefficient();
+            this.Vehicle.Wheels[1].Brake.RollingFrictionCoefficient = this.tires[1].tireConfig.rollingFrictionCoefficient;
+            this.Vehicle.Wheels[3].Brake.RollingFrictionCoefficient = this.tires[3].tireConfig.rollingFrictionCoefficient;
+            this.Vehicle.Wheels[0].Brake.RollingFrictionCoefficient = this.tires[0].tireConfig.rollingFrictionCoefficient;
+            this.Vehicle.Wheels[2].Brake.RollingFrictionCoefficient = this.tires[2].tireConfig.rollingFrictionCoefficient;
         }
 
         public void driveIdle(GameTime gameTime)
@@ -321,6 +319,13 @@ namespace ExampleFlight.src.Model
                 this.Vehicle.Wheels[1].Shape.SteeringAngle = angle;
                 this.Vehicle.Wheels[3].Shape.SteeringAngle = angle;
             }
+        }
+
+        public void resetCar()
+        {
+            this.Vehicle.Body.Position = new Vector3(10, 100, 100);
+            this.Vehicle.Body.LinearVelocity = Vector3.Zero;
+            this.Vehicle.Body.Orientation = new Quaternion(1, 0, 0, MathHelper.PiOver2);
         }
 
     }

@@ -103,7 +103,6 @@ namespace ExampleFlight.src.Model
 
         internal void Update(GameTime gameTime, DebugRender dr)
         {
-            dr.DrawGrid(1000);
             dr.DrawBox(new BoundingBox(
                             new Fusion.Mathematics.Vector3(downBox.Position.X - coorX / 2, downBox.Position.Z - coorZ / 2,downBox.Position.Y - coorY / 2),
                             new Fusion.Mathematics.Vector3(downBox.Position.X + coorX / 2, downBox.Position.Z + coorZ / 2, downBox.Position.Y + coorY / 2)

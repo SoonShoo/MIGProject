@@ -68,6 +68,16 @@ namespace ExampleFlight
             Log.Message("{0}", scene.Nodes.Count(n => n.MeshIndex >= 0));
         }
 
+        public void LoadContent()
+        {
+            modelConstBuffer = new ConstantBuffer(graphicsDevice, typeof(CBData));
+            scene.Bake<VertexColorTextureNormal>(graphicsDevice, VertexColorTextureNormal.Bake);
+            modelUberShader = this.game.Content.Load<Ubershader>(shaderName);
+            modelUberShader.Map(typeof(RenderFlags));
+
+            Log.Message("{0}", scene.Nodes.Count(n => n.MeshIndex >= 0));
+        }
+
         public void SetPosition(float x, float y, float z)
         {
             this.position = new Vector3(x, y, z);

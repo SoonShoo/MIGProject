@@ -9,6 +9,7 @@ using Fusion.Content;
 using Fusion.Graphics;
 using Fusion.Input;
 using Fusion.Development;
+using Fusion.Mathematics;
 using Microsoft.SqlServer.Server;
 using BVector3 = BEPUutilities.Vector3;
 using Vector3 = Fusion.Mathematics.Vector3;
@@ -19,18 +20,25 @@ namespace ExampleFlight
     {
         Game game;
         GraphicsDevice graphicsDevice;
-
-        const string shaderName = "render2";
+        Texture2D texLoading;
 
         public Environment(Game game, GraphicsDevice graphicsDevice, float scale)
         {
             this.game = game;
             this.graphicsDevice = graphicsDevice;
-            base.LoadContent(game, graphicsDevice, "field", shaderName, 1);
+            this.modelName = "scenes/floor";
+            this.shaderName = "render2";
+            texLoading = this.game.Content.Load<Texture2D>("Textures/asphalt_47");
             this.setScaling(scale);
             game.Reloading += (s, e) => this.Reload();
             this.SetPosition(0.0f, 0.05f, 0.0f);
             worldMatrix = Fusion.Mathematics.Matrix.Identity * Fusion.Mathematics.Matrix.AffineTransformation(scale, Fusion.Mathematics.Quaternion.Zero, getPosition());
+        }
+
+        public void draw()
+        {
+            //base.DrawModel(StereoEye.Mono);
+            
         }
     }
 }

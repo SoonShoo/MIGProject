@@ -482,4 +482,26 @@
     <ImportAnimation>false</ImportAnimation>
     <ImportGeometry>true</ImportGeometry>
   </Asset>
+  <Asset xsi:type="FbxFileSceneAsset">
+    <AssetPath>scenes/floor.fbx</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <SourceFile>scenes/floor.fbx</SourceFile>
+    <MergeTolerance>0</MergeTolerance>
+    <ImportAnimation>false</ImportAnimation>
+    <ImportGeometry>true</ImportGeometry>
+  </Asset>
+  <Asset xsi:type="ImageFileTextureAsset">
+    <AssetPath>Textures/asphalt_47.jpg</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <NoMips>false</NoMips>
+    <Fast>false</Fast>
+    <ToNormal>false</ToNormal>
+    <Color>true</Color>
+    <Alpha>false</Alpha>
+    <Normal>false</Normal>
+    <Compression>RGB</Compression>
+    <SourceFile>Textures/asphalt_47.jpg</SourceFile>
+  </Asset>
 </ArrayOfAsset>

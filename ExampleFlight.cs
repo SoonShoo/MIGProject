@@ -35,7 +35,7 @@ namespace ExampleFlight
             AddService(new DebugStrings(this), true, true, 9999, 9999);
             AddService(new DebugRender(this), true, true, 9998, 9998);
             AddService(new Camera(this), true, false, 1, 1);
-           // AddService(new Tire(this), true, false, 1, 1);
+            AddService(new Tire(this), true, false, 1, 1);
 
             //	load configuration :
             LoadConfiguration();
