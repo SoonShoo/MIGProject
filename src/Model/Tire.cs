@@ -68,10 +68,31 @@ namespace ExampleFlight.src.Model
 
         public void Update(GameTime gameTime, DebugRender dr)
         {
+            //updateParameters();
             dr.DrawSphere(
                 new Fusion.Mathematics.Vector3(wheel.SupportLocation.X, wheel.SupportLocation.Z, wheel.SupportLocation.Y),
                 tireConfig.radius, Fusion.Mathematics.Color.Red);
             this.Update(gameTime);
+        }
+
+        public void updateParameters()
+        {
+            wheel.Shape.Radius = tireConfig.radius;
+            //WheelSuspension
+            wheel.Suspension.SpringSettings.Damping = tireConfig.stiffnessConstant;
+            wheel.Suspension.SpringSettings.Stiffness = tireConfig.dampingConstant;
+            wheel.Suspension.RestLength = tireConfig.restLength;
+            //WheelDrivingMotor
+            wheel.DrivingMotor.GripFriction = tireConfig.gripFriction;
+            wheel.DrivingMotor.MaximumForwardForce = tireConfig.maximumForwardForce;
+            wheel.DrivingMotor.MaximumBackwardForce = tireConfig.maximumBackwardForce;
+            // brake
+            wheel.Brake.KineticBrakingFrictionCoefficient = tireConfig.dynamicBrakingFrictionCoefficient;
+            wheel.Brake.StaticBrakingFrictionCoefficient = tireConfig.staticBrakingFrictionCoefficient;
+            wheel.Brake.RollingFrictionCoefficient = tireConfig.rollingFrictionCoefficient;
+            // SlidingFriction
+            wheel.SlidingFriction.StaticCoefficient = tireConfig.staticCoefficient;
+            wheel.SlidingFriction.KineticCoefficient = tireConfig.dynamicCoefficient;
         }
     }
 }

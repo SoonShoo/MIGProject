@@ -201,7 +201,7 @@ namespace ExampleFlight
                 graphicsDevice.BlendState = BlendState.Opaque;
                 graphicsDevice.PSConstantBuffers[0] = modelConstBuffer;
                 graphicsDevice.VSConstantBuffers[0] = modelConstBuffer;
-                graphicsDevice.PSSamplerStates[0] = SamplerState.AnisotropicWrap;
+                graphicsDevice.PSSamplerStates[0] = SamplerState.PointWrap;
 
                 mesh.SetupVertexInput();
 

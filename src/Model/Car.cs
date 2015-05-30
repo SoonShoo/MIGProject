@@ -48,6 +48,13 @@ namespace ExampleFlight.src.Model
         private float time;
         private float angle;
 
+        //camera
+        float cosAlfa;
+        float sinAlfa;
+        public Fusion.Mathematics.Vector3 vecNormal = Fusion.Mathematics.Vector3.Right;
+        private const float radius = 40;
+        private const float beta = MathHelper.PiOver2 / 3;
+
         private List<Tire> tires = new List<Tire>();
 
         private List<Vector3> wheelpositionList;
@@ -101,28 +108,16 @@ namespace ExampleFlight.src.Model
             space.Add(Vehicle);
         }
 
-        public void Update(GameTime gameTime, DebugRender dr, InputDevice device, Camera cam)
+        public void Update(GameTime gameTime, DebugRender dr, InputDevice device)
         {
             SetPosition(Vehicle.Body.Position.X, Vehicle.Body.Position.Z, Vehicle.Body.Position.Y);
             var o = Vehicle.Body.Orientation;
             SetOrientation(new Fusion.Mathematics.Quaternion(o.X, o.Y, o.Z, o.W));
             worldMatrix = Fusion.Mathematics.Matrix.RotationX(MathHelper.PiOver2)
-                * Fusion.Mathematics.Matrix.RotationZ(MathHelper.PiOver2*2) 
-                * Fusion.Mathematics.Matrix.Identity*switchMatrixFromBepu(Vehicle.Body.WorldTransform);
-
-
-            Fusion.Mathematics.Vector3 thirdPersonReference = new Fusion.Mathematics.Vector3(0,30, -30);
-            Fusion.Mathematics.Matrix rotationMatrix = Fusion.Mathematics.Matrix.RotationY(MathHelper.PiOver4);
-            Fusion.Mathematics.Vector3 transformedReference = Fusion.Mathematics.Vector3.TransformCoordinate(
-                thirdPersonReference, rotationMatrix);
-            Fusion.Mathematics.Vector3 cameraPosition = transformedReference +
-                                                        switchVectorFromBepu(Vehicle.Body.Position);
-            cam.FreeCamPosition = cameraPosition;
-            
-            cam.LookAt(cameraPosition, switchVectorFromBepu(Vehicle.Body.Position), Fusion.Mathematics.Vector3.Up);
-            
-            cam.Update(gameTime);
-
+                          *Fusion.Mathematics.Matrix.RotationZ(MathHelper.PiOver2*2)
+                          *Fusion.Mathematics.Matrix.Identity*switchMatrixFromBepu(Vehicle.Body.WorldTransform)
+                          *Fusion.Mathematics.Matrix.Translation(0,1.5f,0);
+            updateCamera(gameTime, vecNormal);
             for (int i = 0; i < tires.Count; i++)
             {
                 tires[i].Update(gameTime, dr);
@@ -326,7 +321,39 @@ namespace ExampleFlight.src.Model
             this.Vehicle.Body.Position = new Vector3(10, 100, 100);
             this.Vehicle.Body.LinearVelocity = Vector3.Zero;
             this.Vehicle.Body.Orientation = new Quaternion(1, 0, 0, MathHelper.PiOver2);
+            foreach (var tire in this.tires)
+            {
+                tire.updateParameters();
+            }
         }
 
+        public void updateCamera(GameTime gameTime, Fusion.Mathematics.Vector3 viewCamera)
+        {
+            var cam = this.game.GetService<Camera>();
+            var velocity = Vehicle.Body.LinearVelocity;
+
+            if (velocity.LengthSquared() > 0.01)
+            {
+                var multi = viewCamera * switchVectorFromBepu(velocity);
+                cosAlfa = -(multi.X + multi.Y + multi.Z) / (viewCamera.Length() * velocity.Length());
+                if (velocity.Y > 0)
+                    sinAlfa = -(float)Math.Sin(Math.Acos(-cosAlfa));
+                else
+                    sinAlfa = (float)Math.Sin(Math.Acos(-cosAlfa));
+            }
+            else
+            {
+                cosAlfa = (float)Math.Cos(beta);
+                sinAlfa = (float)Math.Sin(beta);
+            }
+            float x = radius * cosAlfa * (float)Math.Sin(beta);
+            float y = radius * sinAlfa * (float)Math.Sin(beta);
+            float z = radius * (float)Math.Sin(beta);
+
+            Fusion.Mathematics.Vector3 thirdPersonReference = new Fusion.Mathematics.Vector3(x + Vehicle.Body.Position.X, z + Vehicle.Body.Position.Z, y + Vehicle.Body.Position.Y);
+            cam.LookAt(thirdPersonReference, switchVectorFromBepu(Vehicle.Body.Position), Fusion.Mathematics.Vector3.Up);
+
+            cam.Update(gameTime);
+        }
     }
 }

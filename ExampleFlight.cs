@@ -46,8 +46,6 @@ namespace ExampleFlight
 
         }
 
-
-        ModelOfScene migPlane;
         Server server;
         ConstantBuffer constBuffer;
 
@@ -147,7 +145,7 @@ namespace ExampleFlight
             var dr = GetService<DebugRender>();
             dr.View = cam.GetViewMatrix(StereoEye.Mono);
             dr.Projection = cam.GetProjectionMatrix(StereoEye.Mono);
-            server.Update(gameTime, dr, InputDevice, cam);
+            server.Update(gameTime, dr, InputDevice);
             base.Update(gameTime);
         }
 

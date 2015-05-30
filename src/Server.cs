@@ -53,7 +53,7 @@ namespace ExampleFlight
             player = new Player(car);
         }
 
-        public void Update(GameTime gameTime, DebugRender dr, InputDevice device, Camera cam)
+        public void Update(GameTime gameTime, DebugRender dr, InputDevice device)
         {
             space.Update(gameTime.ElapsedSec * 10f);
 
@@ -61,7 +61,7 @@ namespace ExampleFlight
 
             sphere.Update(gameTime, dr, device);
             player.Control(gameTime, device);
-            car.Update(gameTime, dr, device, cam);
+            car.Update(gameTime, dr, device);
         }
 
         public override void Draw(GameTime gameTime, StereoEye stereoEye)

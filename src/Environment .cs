@@ -26,8 +26,10 @@ namespace ExampleFlight
         {
             this.game = game;
             this.graphicsDevice = graphicsDevice;
-            this.modelName = "scenes/floor";
+            this.modelName = "scenes/floor_new";
             this.shaderName = "render2";
+            base.LoadContent(game, graphicsDevice, modelName, shaderName, 1);
+
             texLoading = this.game.Content.Load<Texture2D>("Textures/asphalt_47");
             this.setScaling(scale);
             game.Reloading += (s, e) => this.Reload();
@@ -37,7 +39,7 @@ namespace ExampleFlight
 
         public void draw()
         {
-            //base.DrawModel(StereoEye.Mono);
+            base.DrawModel(StereoEye.Mono);
             
         }
     }

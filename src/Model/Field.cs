@@ -33,9 +33,9 @@ namespace ExampleFlight.src.Model
         const string modelName = "field.fbx";
         const string shaderName = "render2";
 
-        private float heightCylinder=30;
+        private float heightCylinder=100;
         private static float radiousCylinder=0.25f;
-        private const int countObjectTrace=120;
+        private const int countObjectTrace=300;
         private const float distance = 30;
         private List<Cylinder> objectTrace;
 
@@ -87,14 +87,14 @@ namespace ExampleFlight.src.Model
             backBox = createAndAddBox(new Vector3(0, -coorY / 2, 0), new Quaternion(1, 0, 0, MathHelper.PiOver2));
             // =============================
             // TODO: traplins
-            //objectTrace = new List<Cylinder>();
-            //for (int i = 0; i < countObjectTrace; i++)
-            //{
-            //    var position = new Vector3(radiousCylinder * i, 0, radiousCylinder + angle * i);
-            //    var cylinder = new Cylinder(position, heightCylinder, radiousCylinder);
-            //    objectTrace.Add(cylinder);
-            //    space.Add(cylinder);
-            //}
+            objectTrace = new List<Cylinder>();
+            for (int i = 0; i < countObjectTrace; i++)
+            {
+                var position = new Vector3(radiousCylinder * i, 0, radiousCylinder + angle * i);
+                var cylinder = new Cylinder(position, heightCylinder, radiousCylinder);
+                objectTrace.Add(cylinder);
+                space.Add(cylinder);
+            }
 
             //traplin = new ConvexHull(tramplinVector3List);
             //space.Add(traplin);
@@ -107,20 +107,20 @@ namespace ExampleFlight.src.Model
                             new Fusion.Mathematics.Vector3(downBox.Position.X - coorX / 2, downBox.Position.Z - coorZ / 2,downBox.Position.Y - coorY / 2),
                             new Fusion.Mathematics.Vector3(downBox.Position.X + coorX / 2, downBox.Position.Z + coorZ / 2, downBox.Position.Y + coorY / 2)
                             ),
-                        Color.Red);
+                        Color.BlueViolet);
             //======================
             // TODO: tramplin from cylinder
-            //int count = 0;
-            //foreach (Cylinder cylin in objectTrace)
-            //{
-                
-            //    dr.DrawBox(new BoundingBox(
-            //                new Fusion.Mathematics.Vector3(cylin.Position.X - radiousCylinder / 2, radiousCylinder+angle*count, cylin.Position.Y / 2 - heightCylinder / 2),
-            //                new Fusion.Mathematics.Vector3(cylin.Position.X + radiousCylinder / 2, radiousCylinder+angle*(count+1), cylin.Position.Y / 2 + heightCylinder / 2)
-            //                ), 
-            //            Color.Red);
-            //    count++;
-            //}
+            int count = 0;
+            foreach (Cylinder cylin in objectTrace)
+            {
+
+                dr.DrawBox(new BoundingBox(
+                            new Fusion.Mathematics.Vector3(cylin.Position.X - radiousCylinder / 2, radiousCylinder + angle * count, cylin.Position.Y / 2 - heightCylinder / 2),
+                            new Fusion.Mathematics.Vector3(cylin.Position.X + radiousCylinder / 2, radiousCylinder + angle * (count + 1), cylin.Position.Y / 2 + heightCylinder / 2)
+                            ),
+                        Color.BlueViolet);
+                count++;
+            }
             //===============================
             // TODO: tramplin
             //dr.DrawBox(new BoundingBox(
