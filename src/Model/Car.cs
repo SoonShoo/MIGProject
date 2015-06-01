@@ -49,8 +49,8 @@ namespace ExampleFlight.src.Model
         private float angle;
 
         //camera
-        float cosAlfa;
-        float sinAlfa;
+        public float cosAlfa;
+        public float sinAlfa;
         public Fusion.Mathematics.Vector3 vecNormal = Fusion.Mathematics.Vector3.Right;
         private const float radius = 40;
         private const float beta = MathHelper.PiOver2 / 3;
@@ -330,30 +330,34 @@ namespace ExampleFlight.src.Model
         public void updateCamera(GameTime gameTime, Fusion.Mathematics.Vector3 viewCamera)
         {
             var cam = this.game.GetService<Camera>();
-            var velocity = Vehicle.Body.LinearVelocity;
-
-            if (velocity.LengthSquared() > 0.01)
-            {
-                var multi = viewCamera * switchVectorFromBepu(velocity);
-                cosAlfa = -(multi.X + multi.Y + multi.Z) / (viewCamera.Length() * velocity.Length());
-                if (velocity.Y > 0)
-                    sinAlfa = -(float)Math.Sin(Math.Acos(-cosAlfa));
-                else
-                    sinAlfa = (float)Math.Sin(Math.Acos(-cosAlfa));
-            }
-            else
-            {
-                cosAlfa = (float)Math.Cos(beta);
-                sinAlfa = (float)Math.Sin(beta);
-            }
+            computeAngle(viewCamera);
             float x = radius * cosAlfa * (float)Math.Sin(beta);
             float y = radius * sinAlfa * (float)Math.Sin(beta);
             float z = radius * (float)Math.Sin(beta);
-
             Fusion.Mathematics.Vector3 thirdPersonReference = new Fusion.Mathematics.Vector3(x + Vehicle.Body.Position.X, z + Vehicle.Body.Position.Z, y + Vehicle.Body.Position.Y);
             cam.LookAt(thirdPersonReference, switchVectorFromBepu(Vehicle.Body.Position), Fusion.Mathematics.Vector3.Up);
 
             cam.Update(gameTime);
+        }
+
+        public void computeAngle(Fusion.Mathematics.Vector3 viewCamera)
+        {
+            var velocity = Vehicle.Body.LinearVelocity;
+
+            if (velocity.LengthSquared() > 0.01)
+            {
+                var multi = viewCamera*switchVectorFromBepu(velocity);
+                cosAlfa = -(multi.X + multi.Y + multi.Z)/(viewCamera.Length()*velocity.Length());
+                if (velocity.Y > 0)
+                    sinAlfa = -(float) Math.Sin(Math.Acos(-cosAlfa));
+                else
+                    sinAlfa = (float) Math.Sin(Math.Acos(-cosAlfa));
+            }
+            else
+            {
+                cosAlfa = (float) Math.Cos(beta);
+                sinAlfa = (float) Math.Sin(beta);
+            }
         }
     }
 }

@@ -143,7 +143,6 @@ namespace ExampleFlight
 
             var worldMatricies = new Matrix[scene.Nodes.Count];
             scene.CopyAbsoluteTransformsTo(worldMatricies);
-            var j = 1;
             for (int i = 0; i < scene.Nodes.Count; i++)
             {
 
@@ -201,7 +200,7 @@ namespace ExampleFlight
                 graphicsDevice.BlendState = BlendState.Opaque;
                 graphicsDevice.PSConstantBuffers[0] = modelConstBuffer;
                 graphicsDevice.VSConstantBuffers[0] = modelConstBuffer;
-                graphicsDevice.PSSamplerStates[0] = SamplerState.PointWrap;
+                graphicsDevice.PSSamplerStates[0] = SamplerState.AnisotropicWrap;
 
                 mesh.SetupVertexInput();
 

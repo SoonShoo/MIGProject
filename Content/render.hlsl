@@ -35,7 +35,6 @@ struct PS_IN {
 cbuffer 		CBBatch 	: 	register(b0) { BATCH Batch : packoffset( c0 ); }	
 SamplerState	Sampler		: 	register(s0);
 Texture2D		Texture 	: 	register(t0);
-//Texture2D		Texture2 	: 	register(t1);
 
 #if 0
 $pixel +NEGATIVE
@@ -49,7 +48,7 @@ PS_IN VSMain( VS_IN input )
 {
 	PS_IN output 	= (PS_IN)0;
 	
-	float4 	pos		=	float4( input.Position, 1 ) - float4(Batch.ViewPos);
+	float4 	pos		=	float4( input.Position, 1 );
 	float4	wPos	=	mul( pos,  Batch.World 		);
 	float4	vPos	=	mul( wPos, Batch.View 		);
 	float4	pPos	=	mul( vPos, Batch.Projection );
@@ -57,8 +56,8 @@ PS_IN VSMain( VS_IN input )
 	
 	output.Position = pPos;
 	output.Color 	= 1;
-	output.TexCoord	= input.TexCoord;
-	output.WNormal	= normal;
+	output.TexCoord	= input.TexCoord*1000;
+	output.WNormal	= normalize(normal);
 	
 	return output;
 }
@@ -66,10 +65,10 @@ PS_IN VSMain( VS_IN input )
 
 float4 PSMain( PS_IN input ) : SV_Target
 {
-	//return dot( input.WNormal, normalize(float3(1,1,1)));
-	//return Texture.Sample(Sampler, input.TexCoord);
-	float4 color = float4(1.0f, 0.0f, 0.0f, 1.0f);
-	return  color;
+	float3 amb = float3(100,149,237) / 256.0f / 2;
+	float3 sun = float3(255,240,120) / 256.0f * 1;
+	float3 light = (0.2 + 0.8*dot( input.WNormal, normalize(float3(2,3,1)))) * sun + amb;
+	return float4(light * Texture.Sample( Sampler, input.TexCoord ), 1);
 }
 
 

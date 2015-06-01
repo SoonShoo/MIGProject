@@ -9,6 +9,7 @@ using BEPUphysics.Constraints.TwoEntity.Motors;
 using BEPUphysics.Vehicle;
 using BEPUutilities;
 using ExampleFlight.src.Model;
+using ExampleFlight.src.Statistic;
 using Fusion;
 using Fusion.Audio;
 using Fusion.Content;
@@ -27,10 +28,17 @@ namespace ExampleFlight
         public int numberCamera = 0;
         public int countCameras = 6;
         private bool flagChecking = true;
+
+        public StatisticUtil statUtil;
+        private float interval = 0.15f;
+
         public Player(Car car)
         {
             this.car = car;
+            statUtil = new StatisticUtil(car, interval);
         }
+
+
 
         public void Control(GameTime gameTime, InputDevice device)
         {
@@ -99,9 +107,11 @@ namespace ExampleFlight
                 car.driveTurnIdle(gameTime);
             }
 
-            if (gp.IsKeyPressed(GamepadButtons.Start))
+            if (gp.IsKeyPressed(GamepadButtons.Start) && !flagChecking)
             {
                 car.resetCar();
+                statUtil.closeStreamWriter();
+                flagChecking = true;
             }
             //car.driveIdle(gameTime);
 
@@ -141,19 +151,26 @@ namespace ExampleFlight
                 }
                 numberCamera++;
             }
+
+            if (gp.IsKeyPressed(GamepadButtons.Y) && flagChecking)
+            {
+                flagChecking = false;
+                statUtil.openFileStream("e:\\test.txt");
+
+            }
+            if (statUtil.getIsWriting())
+            {
+                statUtil.writeToFile(gameTime);
+            }
         }
 
         //private void initKeyboard(GameTime gameTime, InputDevice device)
         //{
         //    if (device.IsKeyDown(Keys.R))
         //    {
-        //        car.Vehicle.Body.Position = new BVector3(10, 10, 10);
-        //        car.Vehicle.Body.LinearVelocity=BVector3.Zero;
-        //        car.Vehicle.Body.Orientation= Quaternion.Identity;
-        //        car.SetPosition(0,0,0);
-
+        //        car.resetCar();
         //    }
-            
+
         //    if (device.IsKeyDown(Keys.I))
         //    {
         //        if (flagChecking)
@@ -179,18 +196,18 @@ namespace ExampleFlight
         //        //Drive
         //        if (car.isForwardRun)
         //        {
-        //            car.driveForward(gameTime);
+        //            car.driveForward(gameTime, 0.1f);
         //        }
         //        else
         //        {
-        //            car.driveBack(gameTime);
+        //            car.driveBack(gameTime, 0.1f);
         //        }
         //    }
-            
+
         //    if (device.IsKeyDown(Keys.H))
         //    {
         //        //brake
-        //        car.brakeLight(gameTime);
+        //        car.brakeLight(gameTime, 0.1f);
         //    }
 
         //    if (device.IsKeyDown(Keys.Space))
@@ -206,11 +223,11 @@ namespace ExampleFlight
         //    car.steered = false;
         //    if (device.IsKeyDown(Keys.J))
         //    {
-        //        car.driveRight(gameTime);
+        //        car.driveRight(gameTime, 0.1f);
         //    }
         //    if (device.IsKeyDown(Keys.G))
         //    {
-        //        car.driveLeft(gameTime);
+        //        car.driveLeft(gameTime, 0.1f);
         //    }
         //    if (!car.steered)
         //    {
@@ -218,7 +235,8 @@ namespace ExampleFlight
         //        car.driveTurnIdle(gameTime);
         //    }
 
-        //    car.driveIdle(gameTime);
+
+        //    //car.driveIdle(gameTime);
         //}
     }
 }

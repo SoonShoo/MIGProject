@@ -27,7 +27,7 @@ namespace ExampleFlight
             this.game = game;
             this.graphicsDevice = graphicsDevice;
             this.modelName = "scenes/floor_new";
-            this.shaderName = "render2";
+            this.shaderName = "render";
             base.LoadContent(game, graphicsDevice, modelName, shaderName, 1);
 
             texLoading = this.game.Content.Load<Texture2D>("Textures/asphalt_47");

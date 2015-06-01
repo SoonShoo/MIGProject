@@ -146,6 +146,7 @@ namespace ExampleFlight
             dr.View = cam.GetViewMatrix(StereoEye.Mono);
             dr.Projection = cam.GetProjectionMatrix(StereoEye.Mono);
             server.Update(gameTime, dr, InputDevice);
+            //GetService<Camera>().Config.FreeCamEnabled = true;
             base.Update(gameTime);
         }
 
@@ -159,6 +160,7 @@ namespace ExampleFlight
         protected override void Draw(GameTime gameTime, StereoEye stereoEye)
         {
             //server.Update(gameTime);
+            GraphicsDevice.ClearBackbuffer(Color.CornflowerBlue, 1, 0);
             server.Draw(gameTime, stereoEye);
             base.Draw(gameTime, stereoEye);
         }

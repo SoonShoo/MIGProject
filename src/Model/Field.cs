@@ -23,7 +23,7 @@ namespace ExampleFlight.src.Model
         private Space space;
         private float coorX=1000;
         private float coorY=1000;
-        private float coorZ=0f;
+        private float coorZ=5f;
         private Box downBox;
         private Box rightBox;
         private Box leftBox;
@@ -80,7 +80,8 @@ namespace ExampleFlight.src.Model
         private void init()
         {
             base.LoadContent(game, graphicsDevice, "scenes/cube", shaderName, 1);
-            downBox = createAndAddBox(new Vector3(0, 0, 0), new Quaternion(0, 0, 0, MathHelper.PiOver2)); 
+            downBox =  new Box(new Vector3(0,0,-2.5f), coorX, coorY, coorZ);
+            space.Add(downBox);
             leftBox = createAndAddBox(new Vector3(-coorX / 2, 0, 0), new Quaternion(0, 1, 0, MathHelper.PiOver2));
             rightBox = createAndAddBox(new Vector3(coorX / 2, 0, 0), new Quaternion(0, 1, 0, MathHelper.PiOver2));
             forwardBox = createAndAddBox(new Vector3(0, coorY / 2, 0), new Quaternion(1, 0, 0, MathHelper.PiOver2));

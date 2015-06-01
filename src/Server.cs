@@ -69,7 +69,7 @@ namespace ExampleFlight
             //Drawing
             //...
             car.draw(stereoEye);
-            field.DrawModel(stereoEye);
+            //field.DrawModel(stereoEye);
             environment.draw();
             base.Draw(gameTime, stereoEye);
         }
