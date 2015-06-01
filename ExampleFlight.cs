@@ -43,7 +43,7 @@ namespace ExampleFlight
             //	make configuration saved on exit
             Exiting += FusionGame_Exiting;
             InputDevice.KeyDown += InputDevice_KeyDown;
-
+            GetService<Camera>().Config.FreeCamEnabled = false;
         }
 
         Server server;

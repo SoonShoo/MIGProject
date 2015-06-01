@@ -20,26 +20,25 @@ namespace ExampleFlight.src.Statistic
         private Car car;
         private float interval;
         private float time = 0;
+        private float globalTime = 0;
 
+        public enum StatFunction
+        {
+            CoorXY,
+            SpeedTime
+        }
         public StatisticUtil(Car car, float interval)
         {
             this.car = car;
             this.interval = interval;
         }
 
-        public void openFileStream(String filename)
+        public void executeOperation(GameTime gameTime, StatFunction function)
         {
-            fileStream = new FileStream(filename, FileMode.Create);
-            writer = new StreamWriter(fileStream);
-            isWriting = true;
-            Console.WriteLine("Create file for statistic");
-        }
-
-        public void writeToFile(GameTime gameTime)
-        {
+            globalTime += gameTime.ElapsedSec;
             if (Math.Abs(time) < 0.0001)
             {
-                printLine();
+                runnnerOperation(function);
                 time += gameTime.ElapsedSec;
             }
             else
@@ -50,7 +49,45 @@ namespace ExampleFlight.src.Statistic
                     time = 0;
                 }
             }
-            
+
+        }
+
+        private void runnnerOperation(StatFunction function)
+        {
+            switch (function)
+            {
+                case StatFunction.CoorXY:
+                    printLineCoorXY();
+                    break;
+                case StatFunction.SpeedTime:
+                    printLineSpeedTime();
+                    break;
+            }
+                
+        }
+
+        private void printLineSpeedTime()
+        {
+            writer.Write( globalTime + ";" + car.Vehicle.Body.LinearVelocity.Length()*3.6 + "\n");
+        }
+
+        public void printLineCoorXY()
+        {
+            writer.Write(car.Vehicle.Body.Position.X + ";" + car.Vehicle.Body.Position.Y + "\n");
+            car.computeAngle(Vector3.Right);
+            var speed = car.Vehicle.Body.LinearVelocity;
+            speed.Normalize();
+            var additionalPoint = (car.Vehicle.Body.Position + speed) * 2;
+
+            // writer.Write(additionalPoint.X + ";" + additionalPoint.Y + "\n");
+        }
+
+        public void openFileStream(String filename)
+        {
+            fileStream = new FileStream(filename, FileMode.Create);
+            writer = new StreamWriter(fileStream);
+            isWriting = true;
+            Console.WriteLine("Create file for statistic");
         }
 
         public void closeStreamWriter()
@@ -65,17 +102,6 @@ namespace ExampleFlight.src.Statistic
             return isWriting;
         }
 
-        public void printLine()
-        {
-            writer.Write(car.Vehicle.Body.Position.X + ";" + car.Vehicle.Body.Position.Y + "\n");
-            
-            
-            car.computeAngle(Vector3.Right);
-            var speed = car.Vehicle.Body.LinearVelocity;
-            speed.Normalize();
-            var additionalPoint = (car.Vehicle.Body.Position + speed)*2; 
-            
-           // writer.Write(additionalPoint.X + ";" + additionalPoint.Y + "\n");
-        }
+       
     }
 }

@@ -30,7 +30,27 @@ namespace ExampleFlight
         private bool flagChecking = true;
 
         public StatisticUtil statUtil;
-        private float interval = 0.15f;
+        private float interval = 0f;
+
+        public StateModeling oldStateModel = StateModeling.None;
+        public StateDriveCar oldStateDrive = StateDriveCar.FNone;
+
+        public enum StateDriveCar
+        {
+            Forward,
+            Backward,
+            FNone,
+            BNone
+        }
+
+        public enum StateModeling
+        {
+            Stat,
+            Test,
+            None
+        }
+
+
 
         public Player(Car car)
         {
@@ -38,11 +58,8 @@ namespace ExampleFlight
             statUtil = new StatisticUtil(car, interval);
         }
 
-
-
         public void Control(GameTime gameTime, InputDevice device)
         {
-
             Gamepad gp = device.GetGamepad(0);
             if (!gp.IsConnected)
             {
@@ -52,7 +69,6 @@ namespace ExampleFlight
             {
                 initGamePad(gameTime, gp);
             }
-
         }
 
         private void initGamePad(GameTime gameTime, Gamepad gp)
@@ -61,11 +77,11 @@ namespace ExampleFlight
             if (gp.RightTrigger > 0)
             {
                 //Drive
-                if (car.isForwardRun)
+                if (oldStateDrive.Equals(StateDriveCar.FNone))
                 {
-                    car.driveForward(gameTime, gp.RightTrigger);
+                    car.driveForward(gp.RightTrigger);
                 }
-                else
+                else if (oldStateDrive.Equals(StateDriveCar.BNone))
                 {
                     car.driveBack(gameTime, gp.RightTrigger);
                 }
@@ -107,11 +123,14 @@ namespace ExampleFlight
                 car.driveTurnIdle(gameTime);
             }
 
-            if (gp.IsKeyPressed(GamepadButtons.Start) && !flagChecking)
+            if (gp.IsKeyPressed(GamepadButtons.Start))
             {
                 car.resetCar();
-                statUtil.closeStreamWriter();
-                flagChecking = true;
+                if (oldStateModel.Equals(StateModeling.Stat))
+                {
+                    statUtil.closeStreamWriter();
+                    oldStateModel = StateModeling.None;
+                }
             }
             //car.driveIdle(gameTime);
 
@@ -122,7 +141,21 @@ namespace ExampleFlight
 
             if (gp.IsKeyPressed(GamepadButtons.B))
             {
-                car.isForwardRun = true ^ car.isForwardRun;
+                if (oldStateDrive.Equals(StateDriveCar.FNone))
+                    oldStateDrive = StateDriveCar.Backward;
+                else if (oldStateDrive.Equals(StateDriveCar.BNone))
+                    oldStateDrive = StateDriveCar.Forward;
+            }
+            else
+            {
+                if (oldStateDrive.Equals(StateDriveCar.Forward))
+                {
+                    oldStateDrive = StateDriveCar.FNone;
+                }
+                else if (oldStateDrive.Equals(StateDriveCar.Backward))
+                {
+                    oldStateDrive = StateDriveCar.BNone;
+                }
             }
 
             if (gp.IsKeyPressed(GamepadButtons.A))
@@ -152,15 +185,46 @@ namespace ExampleFlight
                 numberCamera++;
             }
 
-            if (gp.IsKeyPressed(GamepadButtons.Y) && flagChecking)
+            if (gp.IsKeyPressed(GamepadButtons.Y) && oldStateModel.Equals(StateModeling.None))
             {
-                flagChecking = false;
+                oldStateModel = StateModeling.Stat;
                 statUtil.openFileStream("e:\\test.txt");
-
             }
             if (statUtil.getIsWriting())
             {
-                statUtil.writeToFile(gameTime);
+                statUtil.executeOperation(gameTime, StatisticUtil.StatFunction.SpeedTime);
+            }
+
+            if (gp.IsKeyPressed(GamepadButtons.X) && oldStateModel.Equals(StateModeling.None))
+            {
+                startTest();
+            }
+            if (statUtil.getIsWriting() && oldStateModel.Equals(StateModeling.Test))
+            {
+                testSpeed();
+            }
+        }
+
+        private void startTest()
+        {
+            Console.WriteLine("Start Test!");
+            oldStateModel = StateModeling.Test;
+            statUtil.openFileStream("e:\\test.txt"); 
+        }
+
+        private void testSpeed()
+        {
+            
+            car.driveForward(1f);
+            if (car.Vehicle.Body.LinearVelocity.Length() +1 >  car.MaxForwardSpeed)
+            {
+                if (oldStateModel.Equals(StateModeling.Test))
+                {
+                    statUtil.closeStreamWriter();
+                    oldStateModel = StateModeling.None;
+                    Console.WriteLine("End Test!");
+                    car.resetCar();
+                }
             }
         }
 

@@ -21,8 +21,8 @@ namespace ExampleFlight.src.Model
     class Field : ModelOfScene
     {
         private Space space;
-        private float coorX=1000;
-        private float coorY=1000;
+        private float coorX=10000;
+        private float coorY=10000;
         private float coorZ=5f;
         private Box downBox;
         private Box rightBox;
@@ -82,10 +82,10 @@ namespace ExampleFlight.src.Model
             base.LoadContent(game, graphicsDevice, "scenes/cube", shaderName, 1);
             downBox =  new Box(new Vector3(0,0,-2.5f), coorX, coorY, coorZ);
             space.Add(downBox);
-            leftBox = createAndAddBox(new Vector3(-coorX / 2, 0, 0), new Quaternion(0, 1, 0, MathHelper.PiOver2));
-            rightBox = createAndAddBox(new Vector3(coorX / 2, 0, 0), new Quaternion(0, 1, 0, MathHelper.PiOver2));
-            forwardBox = createAndAddBox(new Vector3(0, coorY / 2, 0), new Quaternion(1, 0, 0, MathHelper.PiOver2));
-            backBox = createAndAddBox(new Vector3(0, -coorY / 2, 0), new Quaternion(1, 0, 0, MathHelper.PiOver2));
+            //leftBox = createAndAddBox(new Vector3(-coorX / 2, 0, 0), new Quaternion(0, 1, 0, MathHelper.PiOver2));
+            //rightBox = createAndAddBox(new Vector3(coorX / 2, 0, 0), new Quaternion(0, 1, 0, MathHelper.PiOver2));
+            //forwardBox = createAndAddBox(new Vector3(0, coorY / 2, 0), new Quaternion(1, 0, 0, MathHelper.PiOver2));
+            //backBox = createAndAddBox(new Vector3(0, -coorY / 2, 0), new Quaternion(1, 0, 0, MathHelper.PiOver2));
             // =============================
             // TODO: traplins
             objectTrace = new List<Cylinder>();

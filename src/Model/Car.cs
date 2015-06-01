@@ -28,15 +28,15 @@ namespace ExampleFlight.src.Model
         const string modelName = "alfa_ansi.fbx";
         const string shaderName = "render2";
 
-        private const float widthCar = 5f;
-        private const float lengthCar = 8f;
-        private const float heightCar = 1f;
+        private const float widthCar = 6f;
+        private const float lengthCar = 12f;
+        private const float heightCar = 1.5f;
 
-        private const float masseCar = 1000;
+        private const float masseCar = 1500;
         
-        public  float MaxForwardSpeed = 50f;
+        public  float MaxForwardSpeed = 40f;
         public float MaxBackwardSpeed = -10f;
-        public float MaximumTurnAngle = (float)Math.PI / 18;
+        public float MaximumTurnAngle = (float)Math.PI / 6;
         public float TurnSpeed = MathHelper.Pi;
         public bool steered = false;
 
@@ -55,6 +55,9 @@ namespace ExampleFlight.src.Model
         private const float radius = 40;
         private const float beta = MathHelper.PiOver2 / 3;
 
+        // Transmission
+
+
         private List<Tire> tires = new List<Tire>();
 
         private List<Vector3> wheelpositionList;
@@ -64,10 +67,10 @@ namespace ExampleFlight.src.Model
             base.LoadContent(game, grDevice, modelName, shaderName, 1);
             wheelpositionList = new List<Vector3>()
             {
-                new Vector3(-widthCar/2+0.2f, heightCar*0.1f, lengthCar/2),
-                new Vector3(-widthCar/2+0.2f, heightCar*0.1f, -lengthCar/2),
-                new Vector3(widthCar/2-0.5f, heightCar*0.1f, lengthCar/2),
-                new Vector3(widthCar/2-0.5f, heightCar*0.1f, -lengthCar/2)
+                new Vector3(-widthCar/2+0.02f, heightCar*0.1f, lengthCar/2-0.01f),
+                new Vector3(-widthCar/2+0.02f, heightCar*0.1f, -lengthCar/2+0.01f),
+                new Vector3(widthCar/2-0.01f, heightCar*0.1f, lengthCar/2-0.01f),
+                new Vector3(widthCar/2-0.01f, heightCar*0.1f, -lengthCar/2+0.01f)
             };
             //worldMatrix = Fusion.Mathematics.Matrix.Translation(position.X, position.Y, position.Z);
             initPhysics(position);
@@ -87,7 +90,6 @@ namespace ExampleFlight.src.Model
             Box body = new Box(position, widthCar, heightCar * 0.7f, lengthCar, masseCar);
             body.CollisionInformation.LocalPosition = new Vector3(0, 0, 0);
             Vehicle = new Vehicle(body);
-
             foreach (Vector3 pos in wheelpositionList)
             {
                 Tire t = new Tire(game, pos);
@@ -110,6 +112,8 @@ namespace ExampleFlight.src.Model
 
         public void Update(GameTime gameTime, DebugRender dr, InputDevice device)
         {
+            var ds = game.GetService<DebugStrings>();
+            ds.Add(Color.Orange, "Speed {0} km/h", this.Vehicle.Body.LinearVelocity.Length()*3.6);
             SetPosition(Vehicle.Body.Position.X, Vehicle.Body.Position.Z, Vehicle.Body.Position.Y);
             var o = Vehicle.Body.Orientation;
             SetOrientation(new Fusion.Mathematics.Quaternion(o.X, o.Y, o.Z, o.W));
@@ -139,14 +143,40 @@ namespace ExampleFlight.src.Model
         }
 
 
-        public void driveForward(GameTime gameTime, float rightTrigger)
+        public void driveForward(float rightTrigger)
         {
             // rightTrigger  > 0 && < 1
-            if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < this.MaxForwardSpeed)
+            if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 6)
             {
-                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += rightTrigger/10;
-                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += rightTrigger/10;
+                var addSpeed = (float)Math.Pow((double)rightTrigger/20, (double) 1.1f);
+                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
+                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
             }
+            else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 12)
+            {
+                var addSpeed = (float) Math.Pow((double) rightTrigger/22, (double) 1.25f);
+                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
+                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
+            }
+            else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 17)
+            {
+                var addSpeed = (float)Math.Pow((double)rightTrigger /25, (double)1.4);
+                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
+                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
+            }
+            else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 23)
+            {
+                var addSpeed = (float)Math.Pow((double)rightTrigger/27 , (double)1.5f);
+                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
+                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
+            }
+            else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < this.MaxForwardSpeed)
+            {
+                var addSpeed = (float)Math.Pow((double)rightTrigger/28, (double)1.55);
+                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
+                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
+            }
+            
             //if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed >= 0)
             //{
             //    if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < this.MaxForwardSpeed)
@@ -175,8 +205,12 @@ namespace ExampleFlight.src.Model
 
         public void driveBack(GameTime gameTime, float rightTrigger)
         {
-            this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed -= rightTrigger/10;
-            this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed -= rightTrigger/10;
+            if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 6)
+            {
+                var addSpeed = (float)Math.Pow((double)rightTrigger / 20, (double)1.1f);
+                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
+                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
+            }
             //if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed <= 0)
             //{
             //    //this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = -3;
@@ -197,7 +231,6 @@ namespace ExampleFlight.src.Model
         }
         public void brakeLight(GameTime gameTime, float leftTrigger)
         {
-            //this.Vehicle.Wheels[1].Brake.KineticBrakingFrictionCoefficient += leftTrigger;
             this.Vehicle.Wheels[1].Brake.RollingFrictionCoefficient = leftTrigger;
             this.Vehicle.Wheels[3].Brake.RollingFrictionCoefficient = leftTrigger;
             this.Vehicle.Wheels[0].Brake.RollingFrictionCoefficient = leftTrigger;
@@ -318,13 +351,14 @@ namespace ExampleFlight.src.Model
 
         public void resetCar()
         {
-            this.Vehicle.Body.Position = new Vector3(10, 100, 100);
+            this.Vehicle.Body.Position = new Vector3(0, 0, 0);
             this.Vehicle.Body.LinearVelocity = Vector3.Zero;
             this.Vehicle.Body.Orientation = new Quaternion(1, 0, 0, MathHelper.PiOver2);
-            foreach (var tire in this.tires)
-            {
-                tire.updateParameters();
-            }
+            this.Vehicle.Body.LinearVelocity= Vector3.Zero;
+            //foreach (var tire in this.tires)
+            //{
+            //    tire.updateParameters();
+            //}
         }
 
         public void updateCamera(GameTime gameTime, Fusion.Mathematics.Vector3 viewCamera)

@@ -33,7 +33,7 @@ namespace ExampleFlight
         private float scaling =1;
         private Matrix rotation = Matrix.RotationYawPitchRoll(0, 0, 0);
 
-        public bool isImage = false;
+        public bool isImage = true;
         public bool isPrint = false;
 
         public void LoadContent(Game game, GraphicsDevice graphicsDevice, string modelName, string shaderName, int fl)
@@ -170,8 +170,8 @@ namespace ExampleFlight
                     cbData.World = worldMatrix;
                     //cbData.World = rotation*Matrix.AffineTransformation(scaling, orientation, position);
                     //cbData.World = worldMatrix*Fusion.Mathematics.Matrix.RotationAxis(Fusion.Mathematics.Vector3.Left, MathUtil.PiOverTwo);
-                    //if(!isImage)
-                       // continue;
+                    if (!isImage)
+                        continue;
                 }
                 else
                 {

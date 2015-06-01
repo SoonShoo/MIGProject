@@ -47,7 +47,7 @@ namespace ExampleFlight
 
             sphere = new SphereObject(Game, space, graphicsDevice);
             
-            car = new Car(Game, graphicsDevice, new BVector3(10,100,100));
+            car = new Car(Game, graphicsDevice, new BVector3(0,0,0));
             car.AddToSpace(space);
 
             player = new Player(car);
