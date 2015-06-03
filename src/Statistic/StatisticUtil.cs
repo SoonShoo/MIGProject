@@ -49,7 +49,6 @@ namespace ExampleFlight.src.Statistic
                     time = 0;
                 }
             }
-
         }
 
         private void runnnerOperation(StatFunction function)
@@ -71,7 +70,7 @@ namespace ExampleFlight.src.Statistic
             writer.Write( globalTime + ";" + car.Vehicle.Body.LinearVelocity.Length()*3.6 + "\n");
         }
 
-        public void printLineCoorXY()
+        private void printLineCoorXY()
         {
             writer.Write(car.Vehicle.Body.Position.X + ";" + car.Vehicle.Body.Position.Y + "\n");
             car.computeAngle(Vector3.Right);

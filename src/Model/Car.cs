@@ -148,31 +148,31 @@ namespace ExampleFlight.src.Model
             // rightTrigger  > 0 && < 1
             if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 6)
             {
-                var addSpeed = (float)Math.Pow((double)rightTrigger/20, (double) 1.1f);
+                var addSpeed = (float)Math.Pow((double)rightTrigger/30, (double) 1.1f);
                 this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
                 this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
             }
-            else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 12)
+            else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 15)
             {
-                var addSpeed = (float) Math.Pow((double) rightTrigger/22, (double) 1.25f);
+                var addSpeed = (float) Math.Pow((double) rightTrigger/25, (double) 1.3f);
                 this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
                 this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
             }
-            else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 17)
+            else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 27)
             {
-                var addSpeed = (float)Math.Pow((double)rightTrigger /25, (double)1.4);
+                var addSpeed = (float)Math.Pow((double)rightTrigger /20, (double)1.5);
                 this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
                 this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
             }
-            else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 23)
+            else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 35)
             {
-                var addSpeed = (float)Math.Pow((double)rightTrigger/27 , (double)1.5f);
+                var addSpeed = (float)Math.Pow((double)rightTrigger/20 , (double)1.7f);
                 this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
                 this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
             }
             else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < this.MaxForwardSpeed)
             {
-                var addSpeed = (float)Math.Pow((double)rightTrigger/28, (double)1.55);
+                var addSpeed = (float)Math.Pow((double)rightTrigger/15, (double)1.9);
                 this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
                 this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
             }
@@ -229,12 +229,12 @@ namespace ExampleFlight.src.Model
             //    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed -= (float)Math.Pow(gameTime.ElapsedSec, brakeGas);
             //}
         }
-        public void brakeLight(GameTime gameTime, float leftTrigger)
+        public void brakeLight(float leftTrigger)
         {
-            this.Vehicle.Wheels[1].Brake.RollingFrictionCoefficient = leftTrigger;
-            this.Vehicle.Wheels[3].Brake.RollingFrictionCoefficient = leftTrigger;
-            this.Vehicle.Wheels[0].Brake.RollingFrictionCoefficient = leftTrigger;
-            this.Vehicle.Wheels[2].Brake.RollingFrictionCoefficient = leftTrigger;
+            this.Vehicle.Wheels[1].Brake.RollingFrictionCoefficient = (float) Math.Pow(leftTrigger, 0.5) * 0.7f;
+            this.Vehicle.Wheels[3].Brake.RollingFrictionCoefficient = (float) Math.Pow(leftTrigger, 0.5) * 0.7f;
+            this.Vehicle.Wheels[0].Brake.RollingFrictionCoefficient = (float) Math.Pow(leftTrigger, 0.5) * 0.7f;
+            this.Vehicle.Wheels[2].Brake.RollingFrictionCoefficient = (float) Math.Pow(leftTrigger, 0.5) * 0.7f;
 
             this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = Vehicle.Body.LinearVelocity.Length();
             this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed = Vehicle.Body.LinearVelocity.Length();
