@@ -32,13 +32,13 @@ namespace ExampleFlight.src.Statistic
         public void initTest()
         {
             Console.WriteLine("Start Test!");
-            statUtil.openFileStream("e:\\testBrake.txt");
+            statUtil.openFileStream("e:\\testSpeed.txt");
         }
 
         public void executeTest(GameTime gameTime)
         {
             statUtil.executeOperation(gameTime, StatisticUtil.StatFunction.SpeedTime);
-            testBrake();
+            testSpeed();
         }
 
         private void testSpeed()

@@ -126,18 +126,15 @@ namespace ExampleFlight
             if (gp.IsKeyPressed(GamepadButtons.Start))
             {
                 car.resetCar();
+                car.isImage = !car.isImage;
                 if (oldStateModel.Equals(StateModeling.Stat) || oldStateModel.Equals(StateModeling.Test))
                 {
                     statUtil.closeStreamWriter();
                     oldStateModel = StateModeling.None;
                 }
+                    
             }
             //car.driveIdle(gameTime);
-
-            if (gp.IsKeyPressed(GamepadButtons.X))
-            {
-                car.isImage = true ^ car.isImage;
-            }
 
             if (gp.IsKeyPressed(GamepadButtons.B))
             {

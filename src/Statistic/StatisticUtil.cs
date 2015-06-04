@@ -25,7 +25,9 @@ namespace ExampleFlight.src.Statistic
         public enum StatFunction
         {
             CoorXY,
-            SpeedTime
+            SpeedTime,
+            AccelerationEngine,
+            SpeedAcceleration
         }
         public StatisticUtil(Car car, float interval)
         {
@@ -61,8 +63,20 @@ namespace ExampleFlight.src.Statistic
                 case StatFunction.SpeedTime:
                     printLineSpeedTime();
                     break;
+                case StatFunction.AccelerationEngine:
+                    printAccelerationEngine();
+                    break;
+                case StatFunction.SpeedAcceleration:
+                    printAccelerationEngine();
+                    printLineSpeedTime();
+                    break;
             }
                 
+        }
+
+        private void printAccelerationEngine()
+        {
+            writer.Write(car.getEngineSpeed() + ";" + car.getAddSpeed() + "\n");
         }
 
         private void printLineSpeedTime()
