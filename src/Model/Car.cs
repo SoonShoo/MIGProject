@@ -79,8 +79,6 @@ namespace ExampleFlight.src.Model
         public float TurnSpeed = MathHelper.Pi;
         public bool steered = false;
 
-        public bool isForwardRun = true;
-
         private float brakeCoeff = 0.50f;
         private float brakeGas = 0.70f;
         
@@ -153,7 +151,8 @@ namespace ExampleFlight.src.Model
         {
             var ds = game.GetService<DebugStrings>();
             ds.Add(Color.Orange, "Speed {0} km/h", this.Vehicle.Body.LinearVelocity.Length()*3.6);
-            ds.Add(Color.Orange, "StepTransmition {0} km/h", this.transmitionState);
+            ds.Add(Color.Orange, "StepTransmition {0}", this.transmitionState);
+            ds.Add(Color.Orange, "SpeedEngine {0}", engineSpeed);
             SetPosition(Vehicle.Body.Position.X, Vehicle.Body.Position.Z, Vehicle.Body.Position.Y);
             var o = Vehicle.Body.Orientation;
             SetOrientation(new Fusion.Mathematics.Quaternion(o.X, o.Y, o.Z, o.W));
@@ -192,45 +191,24 @@ namespace ExampleFlight.src.Model
 
         public void driveForward(float rightTrigger)
         {
-            // rightTrigger  > 0 && < 1
-            //if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 6)
-            //{
-            //    var addSpeed = (float)Math.Pow((double)rightTrigger/30, (double) 1.1f);
-            //    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
-            //    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
-            //}
-            //else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 15)
-            //{
-            //    var addSpeed = (float) Math.Pow((double) rightTrigger/25, (double) 1.3f);
-            //    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
-            //    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
-            //}
-            //else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 27)
-            //{
-            //    var addSpeed = (float)Math.Pow((double)rightTrigger /20, (double)1.5);
-            //    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
-            //    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
-            //}
-            //else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 35)
-            //{
-            //    var addSpeed = (float)Math.Pow((double)rightTrigger/20 , (double)1.7f);
-            //    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
-            //    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
-            //}
-            //else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < this.MaxForwardSpeed)
-            //{
-            //    var addSpeed = (float)Math.Pow((double)rightTrigger/15, (double)1.9);
-            //    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
-            //    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
-            //}
-
-
-            
             if (transmitionModel.Equals(TransmitionModel.AT))
             {
+                if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 0.1)
+                {
+                    if (transmitionState.Equals(TransmitionState.Back))
+                    {
+                        engineSpeed += rightTrigger*6;
+                        addSpeed = countAddSpeed(0.015f, 2, 10000000, Step1min);
+                        this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed -= addSpeed;
+                        this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed -= addSpeed;
+                    }
+                    else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 0)
+                        return;
+                }
+                    
                 if (transmitionState.Equals(TransmitionState.First))
                 {
-                    engineSpeed += rightTrigger * 4;
+                    engineSpeed += rightTrigger * 6;
                     if (engineSpeed > Step1max)
                     {
                         transmitionState = TransmitionState.Second;
@@ -243,7 +221,7 @@ namespace ExampleFlight.src.Model
 
                 if (transmitionState.Equals(TransmitionState.Second))
                 {
-                    engineSpeed += rightTrigger * 3;
+                    engineSpeed += rightTrigger * 4;
                     if (engineSpeed > Step2max)
                     {
                         transmitionState = TransmitionState.Third;
@@ -294,32 +272,7 @@ namespace ExampleFlight.src.Model
         {
             return addSpeed = (float)(maxValue * Math.Exp(-Math.Pow(engineSpeed - stepmin, pow) / del1));
         }
-        public void driveBack(GameTime gameTime, float rightTrigger)
-        {
-            if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 6)
-            {
-                addSpeed = (float)Math.Pow((double)rightTrigger / 20, (double)1.1f);
-                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
-                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
-            }
-            //if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed <= 0)
-            //{
-            //    //this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = -3;
-            //    //this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed = -3;
-            //    if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed > this.MaxBackwardSpeed)
-            //    {
-            //        time = -gameTime.ElapsedSec + (float)Math.Pow((double)this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed, 1);
-            //        this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = (float)Math.Pow(time, 1);
-            //        this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed = (float)Math.Pow(time, 1);
-            //    }
-            //}
-            //else
-            //{
-            //    // brake
-            //    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed -= (float)Math.Pow(gameTime.ElapsedSec, brakeGas);
-            //    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed -= (float)Math.Pow(gameTime.ElapsedSec, brakeGas);
-            //}
-        }
+
         public void brakeLight(float leftTrigger)
         {
             this.Vehicle.Wheels[1].Brake.RollingFrictionCoefficient = (float) Math.Pow(leftTrigger, 0.5) * 0.7f;
@@ -330,54 +283,124 @@ namespace ExampleFlight.src.Model
             this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = Vehicle.Body.LinearVelocity.Length();
             this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed = Vehicle.Body.LinearVelocity.Length();
         }
-        public void brake(GameTime gameTime)
+        //public void brake(GameTime gameTime)
+        //{
+        //    if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed>0 && this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 0.001 ||
+        //        this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed<0 && this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed > -0.001)
+        //    {
+        //        this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = 0;
+        //        this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed = 0;
+        //    }
+
+        //    if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed > 0)
+        //    {
+        //        this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed -= (float)Math.Pow(gameTime.ElapsedSec, brakeCoeff);
+        //        this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed -= (float)Math.Pow(gameTime.ElapsedSec, brakeCoeff);
+        //    }
+        //    else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 0)
+        //    {
+        //        this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += (float)Math.Pow(gameTime.ElapsedSec, brakeCoeff);
+        //        this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += (float)Math.Pow(gameTime.ElapsedSec, brakeCoeff);
+        //    }
+
+        //}
+
+        ////public void unbrake()
+        ////{
+        ////    this.Vehicle.Wheels[1].Brake.RollingFrictionCoefficient = this.tires[1].tireConfig.rollingFrictionCoefficient;
+        ////    this.Vehicle.Wheels[3].Brake.RollingFrictionCoefficient = this.tires[3].tireConfig.rollingFrictionCoefficient;
+        ////    this.Vehicle.Wheels[0].Brake.RollingFrictionCoefficient = this.tires[0].tireConfig.rollingFrictionCoefficient;
+        ////    this.Vehicle.Wheels[2].Brake.RollingFrictionCoefficient = this.tires[2].tireConfig.rollingFrictionCoefficient;
+        ////}
+
+        public void driveIdle()
         {
-            if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed>0 && this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 0.001 ||
-                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed<0 && this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed > -0.001)
+            if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 0.1)
             {
-                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = 0;
-                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed = 0;
+                if (engineSpeed < 300)
+                    return;
+                if (transmitionState.Equals(TransmitionState.Back))
+                {
+                    engineSpeed -= 0.1f;
+                    addSpeed = countAddSpeed(0.001f, 2, 10000000, Step1min);
+                    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
+                    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
+                }
+                if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed > 0)
+                {
+                    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = 0;
+                    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed = 0;
+                }
+                    
             }
 
-            if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed > 0)
+            if (transmitionState.Equals(TransmitionState.First))
             {
-                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed -= (float)Math.Pow(gameTime.ElapsedSec, brakeCoeff);
-                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed -= (float)Math.Pow(gameTime.ElapsedSec, brakeCoeff);
-            }
-            else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 0)
-            {
-                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += (float)Math.Pow(gameTime.ElapsedSec, brakeCoeff);
-                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += (float)Math.Pow(gameTime.ElapsedSec, brakeCoeff);
+                if (engineSpeed < 300)
+                    return;
+                engineSpeed -= 0.1f;
+                if (engineSpeed > Step1max)
+                {
+                    transmitionState = TransmitionState.Second;
+                    engineSpeed = Step2min - 200;
+                }
+                addSpeed = countAddSpeed(0.001f, 2, 10000000, Step1min);
+                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed -= addSpeed;
+                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed -= addSpeed;
+                if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 0)
+                {
+                    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = 0;
+                    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed = 0;
+                }
             }
 
-        }
+            //if (transmitionState.Equals(TransmitionState.Second))
+            //{
+            //    engineSpeed += rightTrigger * 4;
+            //    if (engineSpeed > Step2max)
+            //    {
+            //        transmitionState = TransmitionState.Third;
+            //        engineSpeed = Step3min - 200;
+            //    }
+            //    addSpeed = countAddSpeed(0.01f, 2, 10000000, Step2min);
+            //    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
+            //    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
+            //}
 
-        public void unbrake()
-        {
-            this.Vehicle.Wheels[1].Brake.RollingFrictionCoefficient = this.tires[1].tireConfig.rollingFrictionCoefficient;
-            this.Vehicle.Wheels[3].Brake.RollingFrictionCoefficient = this.tires[3].tireConfig.rollingFrictionCoefficient;
-            this.Vehicle.Wheels[0].Brake.RollingFrictionCoefficient = this.tires[0].tireConfig.rollingFrictionCoefficient;
-            this.Vehicle.Wheels[2].Brake.RollingFrictionCoefficient = this.tires[2].tireConfig.rollingFrictionCoefficient;
-        }
+            //if (transmitionState.Equals(TransmitionState.Third))
+            //{
+            //    engineSpeed += rightTrigger * 2;
+            //    if (engineSpeed > Step3max)
+            //    {
+            //        transmitionState = TransmitionState.Fourth;
+            //        engineSpeed = Step4min - 200;
+            //    }
+            //    addSpeed = countAddSpeed(0.007f, 2, 10000000, Step3min);
+            //    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
+            //    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
+            //}
 
-        public void driveIdle(GameTime gameTime)
-        {
-            if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed > 0 && this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 0.001 ||
-                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 0 && this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed > -0.001)
-            {
-                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = 0;
-                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed = 0;
-            }
-            if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed > 0)
-            {
-                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += -gameTime.ElapsedSec / 2;
-                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += -gameTime.ElapsedSec / 2;
-            }
-            else if (this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed < 0)
-            {
-                this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += gameTime.ElapsedSec / 2;
-                this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += gameTime.ElapsedSec / 2;
-            }
+            //if (transmitionState.Equals(TransmitionState.Fourth))
+            //{
+            //    engineSpeed += rightTrigger * 1;
+            //    if (engineSpeed > Step4max)
+            //    {
+            //        transmitionState = TransmitionState.Fifth;
+            //        engineSpeed = Step5min - 200;
+            //    }
+            //    addSpeed = countAddSpeed(0.005f, 2, 10000000, Step4min);
+            //    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
+            //    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
+            //}
+
+            //if (transmitionState.Equals(TransmitionState.Fifth))
+            //{
+            //    engineSpeed += rightTrigger / 2;
+            //    addSpeed = countAddSpeed(0.004f, 2, 10000000, Step5min);
+            //    this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed += addSpeed;
+            //    this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed += addSpeed;
+            //}
+            
         }
 
 
@@ -422,6 +445,10 @@ namespace ExampleFlight.src.Model
             this.Vehicle.Body.LinearVelocity = Vector3.Zero;
             this.Vehicle.Body.Orientation = new Quaternion(1, 0, 0, MathHelper.PiOver2);
             this.Vehicle.Body.LinearVelocity= Vector3.Zero;
+            this.Vehicle.Wheels[1].DrivingMotor.TargetSpeed = 0;
+            this.Vehicle.Wheels[3].DrivingMotor.TargetSpeed = 0;
+            this.engineSpeed = 500;
+            this.transmitionState=TransmitionState.First;
             //foreach (var tire in this.tires)
             //{
             //    tire.updateParameters();
@@ -461,6 +488,14 @@ namespace ExampleFlight.src.Model
             }
         }
 
+        public void switchForwardBack(bool flag)
+        {
+            if(flag)
+                transmitionState=TransmitionState.First;
+            else
+                transmitionState=TransmitionState.Back;
+            engineSpeed = 500;
+        }
         public float getEngineSpeed()
         {
             return engineSpeed;

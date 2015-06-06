@@ -526,4 +526,13 @@
     <Compression>RGB</Compression>
     <SourceFile>black.jpg</SourceFile>
   </Asset>
+  <Asset xsi:type="FbxFileSceneAsset">
+    <AssetPath>scenes/bridge.fbx</AssetPath>
+    <BuildOrder>0</BuildOrder>
+    <IgnoreToolChanges>false</IgnoreToolChanges>
+    <SourceFile>scenes/bridge.fbx</SourceFile>
+    <MergeTolerance>0</MergeTolerance>
+    <ImportAnimation>false</ImportAnimation>
+    <ImportGeometry>true</ImportGeometry>
+  </Asset>
 </ArrayOfAsset>

@@ -73,34 +73,19 @@ namespace ExampleFlight
 
         private void initGamePad(GameTime gameTime, Gamepad gp)
         {
-            
+            //Drive
             if (gp.RightTrigger > 0)
             {
-                //Drive
-                if (oldStateDrive.Equals(StateDriveCar.FNone))
-                {
-                    car.driveForward(gp.RightTrigger);
-                }
-                else if (oldStateDrive.Equals(StateDriveCar.BNone))
-                {
-                    car.driveBack(gameTime, gp.RightTrigger);
-                }
+                car.driveForward(gp.RightTrigger);
             }
+            else
+            {
+                //car.driveIdle();
+            }
+            //brake
             if (gp.LeftTrigger > 0)
             {
-                //Reverse
                 car.brakeLight(gp.LeftTrigger);
-            }
-            if (gp.LeftTrigger == 0)
-            {
-                //Reverse
-                car.unbrake();
-            }
-
-            if (gp.IsKeyPressed(GamepadButtons.RightShoulder))
-            {
-                //Brake
-                car.brake(gameTime);
             }
 
             //Use smooth steering; while held down, move towards maximum.
@@ -115,11 +100,10 @@ namespace ExampleFlight
             {
                 car.driveRight(gameTime, gp.LeftStick.X);
             }
-            
-            
+
+            //Neither key was pressed, so de-steer.
             if (!car.steered)
             {
-                //Neither key was pressed, so de-steer.
                 car.driveTurnIdle(gameTime);
             }
 
@@ -127,6 +111,7 @@ namespace ExampleFlight
             {
                 car.resetCar();
                 car.isImage = !car.isImage;
+                oldStateDrive = StateDriveCar.FNone;
                 if (oldStateModel.Equals(StateModeling.Stat) || oldStateModel.Equals(StateModeling.Test))
                 {
                     statUtil.closeStreamWriter();
@@ -134,14 +119,20 @@ namespace ExampleFlight
                 }
                     
             }
-            //car.driveIdle(gameTime);
+            
 
             if (gp.IsKeyPressed(GamepadButtons.B))
             {
                 if (oldStateDrive.Equals(StateDriveCar.FNone))
+                {
                     oldStateDrive = StateDriveCar.Backward;
+                    car.switchForwardBack(true);
+                } 
                 else if (oldStateDrive.Equals(StateDriveCar.BNone))
+                {
                     oldStateDrive = StateDriveCar.Forward;
+                    car.switchForwardBack(false);
+                }
             }
             else
             {
@@ -186,6 +177,10 @@ namespace ExampleFlight
             {
                 oldStateModel = StateModeling.Stat;
                 statUtil.openFileStream("e:\\test.txt");
+            }
+            if (oldStateModel.Equals(StateModeling.Stat))
+            {
+                statUtil.executeOperation(gameTime, StatisticUtil.StatFunction.All);
             }
 
             if (gp.IsKeyPressed(GamepadButtons.X) && oldStateModel.Equals(StateModeling.None))

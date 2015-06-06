@@ -89,13 +89,13 @@ namespace ExampleFlight.src.Model
             // =============================
             // TODO: traplins
             objectTrace = new List<Cylinder>();
-            for (int i = 0; i < countObjectTrace; i++)
-            {
-                var position = new Vector3(radiousCylinder * i, 0, radiousCylinder + angle * i);
-                var cylinder = new Cylinder(position, heightCylinder, radiousCylinder);
-                objectTrace.Add(cylinder);
-                space.Add(cylinder);
-            }
+            //for (int i = 0; i < countObjectTrace; i++)
+            //{
+            //    var position = new Vector3(radiousCylinder * i, 0, radiousCylinder + angle * i);
+            //    var cylinder = new Cylinder(position, heightCylinder, radiousCylinder);
+            //    objectTrace.Add(cylinder);
+            //    space.Add(cylinder);
+            //}
 
             //traplin = new ConvexHull(tramplinVector3List);
             //space.Add(traplin);

@@ -27,7 +27,8 @@ namespace ExampleFlight.src.Statistic
             CoorXY,
             SpeedTime,
             AccelerationEngine,
-            SpeedAcceleration
+            SpeedAcceleration,
+            All
         }
         public StatisticUtil(Car car, float interval)
         {
@@ -66,12 +67,16 @@ namespace ExampleFlight.src.Statistic
                 case StatFunction.AccelerationEngine:
                     printAccelerationEngine();
                     break;
-                case StatFunction.SpeedAcceleration:
-                    printAccelerationEngine();
-                    printLineSpeedTime();
+                case StatFunction.All:
+                    printAll();
                     break;
             }
                 
+        }
+
+        private void printAll()
+        {
+            writer.Write(car.getEngineSpeed() + ";" + car.getAddSpeed() + ";" + globalTime + ";" + car.Vehicle.Body.LinearVelocity.Length() * 3.6 + ";" + car.Vehicle.Body.Position.X + ";" + car.Vehicle.Body.Position.Y + "\n");
         }
 
         private void printAccelerationEngine()

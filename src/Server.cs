@@ -29,6 +29,7 @@ namespace ExampleFlight
         private Car car;
         private Player player;
         private Environment environment;
+        private Bridge bridge;
 
         private const float scale = 7000;
 
@@ -44,6 +45,8 @@ namespace ExampleFlight
 
             field = new Field(Game, space, graphicsDevice, scale);
             environment = new Environment(Game, graphicsDevice, scale);
+            bridge = new Bridge(Game, graphicsDevice, 1);
+
 
             sphere = new SphereObject(Game, space, graphicsDevice);
             
@@ -71,6 +74,7 @@ namespace ExampleFlight
             car.draw(stereoEye);
             //field.DrawModel(stereoEye);
             environment.draw();
+            bridge.draw();
             base.Draw(gameTime, stereoEye);
         }
 

@@ -14,6 +14,7 @@ namespace ExampleFlight.src.Statistic
         private Car car;
         private StateTesting stateTest;
 
+        private float testSpeedParameter = 35;
         public enum StateTesting
         {
             None,
@@ -32,19 +33,19 @@ namespace ExampleFlight.src.Statistic
         public void initTest()
         {
             Console.WriteLine("Start Test!");
-            statUtil.openFileStream("e:\\testSpeed.txt");
+            statUtil.openFileStream("e:\\testAll_06.txt");
         }
 
         public void executeTest(GameTime gameTime)
         {
-            statUtil.executeOperation(gameTime, StatisticUtil.StatFunction.SpeedTime);
-            testSpeed();
+            statUtil.executeOperation(gameTime, StatisticUtil.StatFunction.All);
+            testTurn();
         }
 
         private void testSpeed()
         {
             car.driveForward(1f);
-            if (car.Vehicle.Body.LinearVelocity.Length() + 1 > car.MaxForwardSpeed)
+            if (car.Vehicle.Body.LinearVelocity.Length() + 1 > testSpeedParameter)
             {
                 finish();
             }
@@ -53,7 +54,26 @@ namespace ExampleFlight.src.Statistic
         private void testBrake()
         {
             car.driveForward(1f);
-            if (car.Vehicle.Body.LinearVelocity.Length() + 1 > car.MaxForwardSpeed)
+            if (car.Vehicle.Body.LinearVelocity.Length() + 1 > testSpeedParameter)
+            {
+                stateTest = StateTesting.Brake;
+            }
+            if (stateTest.Equals(StateTesting.Brake))
+            {
+                car.brakeLight(1);
+                if (car.Vehicle.Body.LinearVelocity.Length() < 0.01)
+                {
+                    finish();
+                }
+            }
+        }
+
+        private void testTurn()
+        {
+            car.driveForward(1f);
+            car.Vehicle.Wheels[1].Shape.SteeringAngle = car.MaximumTurnAngle;
+            car.Vehicle.Wheels[3].Shape.SteeringAngle = car.MaximumTurnAngle;
+            if (car.Vehicle.Body.LinearVelocity.Length() + 1 > testSpeedParameter)
             {
                 stateTest = StateTesting.Brake;
             }
